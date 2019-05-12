@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="338.0" prefWidth="347.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cine.LoginController">
+   <children>
+      <JFXTextField fx:id="txtCorreo" labelFloat="true" layoutX="61.0" layoutY="80.0" prefHeight="25.0" prefWidth="227.0" promptText="Correo" unFocusColor="ORANGE" AnchorPane.leftAnchor="61.0" AnchorPane.rightAnchor="59.0" AnchorPane.topAnchor="80.0" />
+      <JFXPasswordField fx:id="txtContrasenia" layoutX="60.0" layoutY="169.0" prefHeight="25.0" prefWidth="227.0" promptText="Contraseña" unFocusColor="ORANGE" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="169.0" />
+      <JFXButton fx:id="btnInicia" buttonType="RAISED" layoutX="105.0" layoutY="265.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#IniciaSesion" prefHeight="48.0" prefWidth="139.0" style="-fx-background-color: #ffa500;" text="Iniciar sesión" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="103.0" AnchorPane.topAnchor="265.0" />
+   </children>
+</AnchorPane>
