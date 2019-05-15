@@ -5,7 +5,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Cine extends Application {
     
@@ -13,10 +15,11 @@ public class Cine extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         
-        JFXDecorator decorator = new JFXDecorator(stage, root); 
-        Scene scene = new Scene(decorator);
-        
+        Scene scene = new Scene(root);
         stage.setScene(scene);
+//        stage.res
+//        stage.resizableProperty().setValue(Boolean.FALSE);
+//        stage.initStyle(StageStyle.UTILITY);
         stage.show();
     }
 

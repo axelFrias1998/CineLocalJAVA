@@ -27,6 +27,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
@@ -35,6 +38,12 @@ import javafx.stage.Stage;
  * @author axelf
  */
 public class LoginController implements Initializable {
+
+     @FXML
+    private Label lblContrasenia;
+
+    @FXML
+    private Label lblCorreo;
 
     @FXML
     private JFXButton btnInicia;
@@ -45,48 +54,72 @@ public class LoginController implements Initializable {
     @FXML
     private JFXPasswordField txtContrasenia;
 
+
     @FXML
-    void IniciaSesion(ActionEvent event) throws IOException, ClassNotFoundException {
-        
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB","root","");
-            
-            CallableStatement call = con.prepareCall("{call inicioSesion_sp(?)}");
-            call.setString(1, txtCorreo.getText());
-            
-            boolean hash = call.execute();
-            
-            if(hash){
-                  try(ResultSet rs = call.getResultSet()){
-                      if(rs.next()){
-                          String spPass = rs.getString(1);
-                          System.out.println(spPass);
-                          System.out.println(txtContrasenia.getText());
-                          if(spPass.equalsIgnoreCase(txtContrasenia.getText()))
-                              System.out.println("EXISTE Y JAJSDAJS");
-                          else
-                              System.out.println("Vale verga");
-                      }
-                  }catch(SQLException ex){}
-//                Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
-//                actual.hide();
-//
-//                Parent root = FXMLLoader.load(getClass().getResource("Home.fxml"));
-//                Stage nuevo = new Stage();
-//                JFXDecorator decorator = new JFXDecorator(nuevo, root); 
-//                Scene scene = new Scene(decorator);
-//                nuevo.setScene(scene);
-//                nuevo.show();
-            }
-            else
-                System.out.println("Sin respuesta");
-
-       
-            con.close();
-
-        }catch(SQLException e){ System.out.println(e);}
+    void IniciaSesion(ActionEvent event) throws IOException, ClassNotFoundException, SQLException {
+        if(!"".equals(txtCorreo.getText()) && !"".equals(txtContrasenia.getText())){
+            try{
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB","root","");
+                
+                //Objeto llamada procedimiento almacenado
+                CallableStatement call = con.prepareCall("{call inicioSesion_sp(?)}");
+                //Envío parámetro a procedimiento almacenado
+                call.setString(1, txtCorreo.getText());
+                
+                //Si existe respuesta
+                boolean hash = call.execute();
+                if(hash){
+                    Integer Id = null, Rol = null;
+                    String spNombre = null, spPass = null, spEmail= null;
+                    ResultSet rs = call.getResultSet();
+//                    id nombre pass email rol
+                    while(rs.next()){
+                        Id = rs.getInt(1);
+                        Rol = rs.getInt(5);
+                        spNombre = rs.getString(2);
+                        spPass = rs.getString(3);
+                        spEmail = rs.getString(4);
+                    }
+                    if(spPass.equals(txtContrasenia.getText()) && Rol == 1){
+                        SesionUsuario.getInstance(spNombre, spEmail, Rol, Id);
+//                        Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
+                        Parent root = FXMLLoader.load(getClass().getResource("Home.fxml"));
+                        Stage nuevo = new Stage();
+                        JFXDecorator decorator = new JFXDecorator(nuevo, root); 
+                        Scene scene = new Scene(decorator);
+                        nuevo.setScene(scene);
+                        nuevo.show();
+//                        actual.hide();
+                    }
+                    else if(Rol != 1){
+                        Alert alert = new Alert(AlertType.ERROR);
+                        alert.setTitle("Error de acceso");
+                        alert.setContentText("No tienes permiso para acceder al sistema. Entra con una cuenta válida.");
+                        alert.showAndWait();
+                    }
+                    else if(!spPass.equals(txtContrasenia.getText())){
+                        Alert alert = new Alert(AlertType.ERROR);
+                        alert.setTitle("Error de credenciales");
+                        alert.setContentText("Usuario y/o contraseña incorrectos.");
+                        alert.showAndWait();
+                    }
+                    con.close();
+                }    
+            }catch(SQLException ex){ System.out.println(ex);};
+        }
+        else if("".equals(txtCorreo.getText())){
+            lblCorreo.setText("¡Ingresa un correo válido!");
+            lblCorreo.setVisible(true);
+        }
+        else if("".equals(txtContrasenia.getText())){
+            lblContrasenia.setText("¡Ingresa una contraseña válida!");
+            lblContrasenia.setVisible(true);
+        }
+        else{
+            lblContrasenia.setVisible(false);
+            lblCorreo.setVisible(false);
+        }
     }
     
     @Override
