@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="551.0" prefWidth="843.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cine.InicioController">
+   <children>
+      <Label fx:id="prueba" layoutX="264.0" layoutY="129.0" text="Label" />
+      <JFXDrawer fx:id="drawer" layoutY="57.0" prefHeight="76.0" prefWidth="88.0" style="visibility: false;" visible="false" />
+      <Pane prefHeight="55.0" prefWidth="600.0" style="-fx-background-color: orange;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <JFXHamburger fx:id="hamburger" layoutX="14.0" layoutY="18.0" />
+         </children>
+      </Pane>
+      <Pane fx:id="panelTrabajo" layoutX="322.0" layoutY="176.0" prefHeight="200.0" prefWidth="200.0" />
+   </children>
+</AnchorPane>

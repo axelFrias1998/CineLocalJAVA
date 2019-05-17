@@ -21,7 +21,12 @@ public class SesionUsuario {
                 instance = new SesionUsuario(Nombre, Correo, Rol, Id);
         return instance;
     }
-
+    
+    public static SesionUsuario getInstance(){
+        
+                
+            return instance;
+    } 
     public String getNombre() {
         return Nombre;
     }

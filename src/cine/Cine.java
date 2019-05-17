@@ -5,21 +5,19 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class Cine extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        
-        Scene scene = new Scene(root);
+        Parent root = FXMLLoader.load(getClass().getResource("Inicio.fxml"));
+        JFXDecorator decorator = new JFXDecorator(stage, root);
+        decorator.setCustomMaximize(true);
+        Scene scene = new Scene(decorator);
+        String estilo = getClass().getResource("estilos.css").toExternalForm();
+        scene.getStylesheets().add(estilo);
         stage.setScene(scene);
-//        stage.res
-//        stage.resizableProperty().setValue(Boolean.FALSE);
-//        stage.initStyle(StageStyle.UTILITY);
         stage.show();
     }
 
