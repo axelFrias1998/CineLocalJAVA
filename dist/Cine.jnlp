@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="Cine.jar" size="5254506" download="eager" />
+    <jar href="Cine.jar" size="5259252" download="eager" />
     <jar href="lib\jfoenix-8.0.8.jar" size="2708772" download="eager" />
     <jar href="lib\mysql-connector-java-8.0.16.jar" size="2293144" download="eager" />
   </resources>

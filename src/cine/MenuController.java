@@ -5,13 +5,19 @@
  */
 package cine;
 
-import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDecorator;
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
@@ -39,44 +45,67 @@ public class MenuController implements Initializable {
 
     @FXML
     private JFXButton btnRegistro;
+    
+     @FXML
+    void agregaEstreno(ActionEvent event) throws IOException {
+        Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
+        actual.hide();
+
+        Parent root = FXMLLoader.load(getClass().getResource("CrearPelicula.fxml"));
+        Stage stage = new Stage();
+        JFXDecorator decorator = new JFXDecorator(stage, root);
+        decorator.setCustomMaximize(true);
+        Scene scene = new Scene(decorator);
+        String estilo = getClass().getResource("estilos.css").toExternalForm();
+        scene.getStylesheets().add(estilo);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @FXML
-    void muestraAgregaEstreno(ActionEvent event) {
+    void estadoPeliculas(ActionEvent event) {
 
     }
 
     @FXML
-    void muestraEstadoPeliculas(ActionEvent event) {
+    void creaFuncion(ActionEvent event) {
 
     }
 
     @FXML
-    void muestraCrearFuncion(ActionEvent event) {
+    void anexaSala(ActionEvent event) {
 
     }
 
     @FXML
-    void muestraAnexaSala(ActionEvent event) {
+    void ordenesGeneradas(ActionEvent event) {
 
     }
 
     @FXML
-    void muestraOrdenes(ActionEvent event) {
+    void registroAdministrador(ActionEvent event) throws IOException {
+        Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
+        actual.hide();
 
+        Parent root = FXMLLoader.load(getClass().getResource("registroAdministrador.fxml"));
+        Stage stage = new Stage();
+        JFXDecorator decorator = new JFXDecorator(stage, root);
+        decorator.setCustomMaximize(true);
+        Scene scene = new Scene(decorator);
+        String estilo = getClass().getResource("estilos.css").toExternalForm();
+        scene.getStylesheets().add(estilo);
+        stage.setScene(scene);
+        stage.show();
     }
-    @FXML
-    void muestraRegistroAdministrador(ActionEvent event) {
-
-    }
 
     @FXML
-    void mostrarControlUsuarios(ActionEvent event) {
+    void controlUsuarios(ActionEvent event) {
 
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        btnAnexaSala.setAccessibleText("AnexaSala");
+        // TODO
     }    
     
 }

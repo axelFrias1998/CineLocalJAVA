@@ -13,7 +13,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cine.CrearPeliculaController">
+<AnchorPane id="AnchorPane" prefHeight="521.0" prefWidth="836.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="cine.CrearPeliculaController">
    <children>
       <Label layoutX="481.0" layoutY="96.0" text="Imagen de la pelicula" />
       <Label layoutX="302.0" layoutY="37.0" text="Agregar Pelicula">

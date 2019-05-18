@@ -8,39 +8,39 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="481.0" prefWidth="216.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="481.0" prefWidth="216.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cine.MenuController">
    <children>
-      <JFXButton fx:id="btnAgregaEstreno" buttonType="RAISED" onAction="#muestraAgregaEstreno" prefHeight="70.0" prefWidth="263.0" ripplerFill="#7da8f8" text="Agregar nuevo estreno">
+      <JFXButton fx:id="btnAgregaEstreno" buttonType="RAISED" onAction="#agregaEstreno" prefHeight="70.0" prefWidth="263.0" ripplerFill="#7da8f8" text="Agregar nuevo estreno">
          <font>
             <Font size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnEstadoPeliculas" buttonType="RAISED" onAction="#muestraEstadoPeliculas" prefHeight="70.0" prefWidth="263.0" ripplerFill="#7da8f8" text="Estado de películas">
+      <JFXButton fx:id="btnEstadoPeliculas" buttonType="RAISED" onAction="#estadoPeliculas" prefHeight="70.0" prefWidth="263.0" ripplerFill="#7da8f8" text="Estado de películas">
          <font>
             <Font size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnCreaFuncion" buttonType="RAISED" onAction="#muestraCrearFuncion" prefHeight="70.0" prefWidth="263.0" ripplerFill="#7da8f8" text="Crear función">
+      <JFXButton fx:id="btnCreaFuncion" buttonType="RAISED" onAction="#creaFuncion" prefHeight="70.0" prefWidth="263.0" ripplerFill="#7da8f8" text="Crear función">
          <font>
             <Font size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnAnexaSala" buttonType="RAISED" onAction="#muestraAnexaSala" prefHeight="70.0" prefWidth="263.0" ripplerFill="#7da8f8" text="Anexar sala">
+      <JFXButton fx:id="btnAnexaSala" buttonType="RAISED" onAction="#anexaSala" prefHeight="70.0" prefWidth="263.0" ripplerFill="#7da8f8" text="Anexar sala">
          <font>
             <Font size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnOrdenesGeneradas" buttonType="RAISED" onAction="#muestraOrdenes" prefHeight="70.0" prefWidth="263.0" ripplerFill="#7da8f8" text="Órdenes generadas">
+      <JFXButton fx:id="btnOrdenesGeneradas" buttonType="RAISED" onAction="#ordenesGeneradas" prefHeight="70.0" prefWidth="263.0" ripplerFill="#7da8f8" text="Órdenes generadas">
          <font>
             <Font size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnRegistro" buttonType="RAISED" onAction="#muestraRegistroAdministrador" prefHeight="70.0" prefWidth="263.0" ripplerFill="#7da8f8" text="Registro administrador">
+      <JFXButton fx:id="btnRegistro" buttonType="RAISED" onAction="#registroAdministrador" prefHeight="70.0" prefWidth="263.0" ripplerFill="#7da8f8" text="Registro administrador">
          <font>
             <Font size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnControlDeUsuarios" buttonType="RAISED" onAction="#mostrarControlUsuarios" prefHeight="70.0" prefWidth="263.0" ripplerFill="#7da8f8" text="Control de usuarios">
+      <JFXButton fx:id="btnControlDeUsuarios" buttonType="RAISED" onAction="#controlUsuarios" prefHeight="70.0" prefWidth="263.0" ripplerFill="#7da8f8" text="Control de usuarios">
          <font>
             <Font size="18.0" />
          </font>

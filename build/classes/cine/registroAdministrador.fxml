@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="577.0" prefWidth="438.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="cine.RegistroAdministradorController">
+   <children>
+      <JFXTextField fx:id="txtNombre" labelFloat="true" layoutX="70.0" layoutY="94.0" prefHeight="25.0" prefWidth="220.0" promptText="Nombre" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="94.0" />
+      <JFXTextField fx:id="txtEmail" labelFloat="true" layoutX="70.0" layoutY="164.0" prefHeight="25.0" prefWidth="283.0" promptText="Email" />
+      <JFXTextField fx:id="txtPass" labelFloat="true" layoutX="70.0" layoutY="234.0" prefHeight="25.0" prefWidth="283.0" promptText="Password" />
+      <JFXTextField fx:id="txtSaldo" labelFloat="true" layoutX="70.0" layoutY="304.0" prefHeight="25.0" prefWidth="283.0" promptText="Saldo" />
+      <JFXTextField fx:id="txtRol" editable="false" labelFloat="true" layoutX="70.0" layoutY="374.0" prefHeight="25.0" prefWidth="283.0" promptText="Rol" text="1" />
+      <Label layoutX="70.0" layoutY="30.0" text="Registro">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnAgregar" layoutX="182.0" layoutY="486.0" onAction="#Action_AgregarRegistro" style="-fx-background-color: #51DFCB;" text="Agregar" />
+      <Label fx:id="lblValidacion" layoutX="70.0" layoutY="436.0" prefHeight="17.0" prefWidth="361.0" />
+   </children>
+</AnchorPane>
