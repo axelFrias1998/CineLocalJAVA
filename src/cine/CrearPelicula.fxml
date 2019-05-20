@@ -13,24 +13,40 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="521.0" prefWidth="836.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="cine.CrearPeliculaController">
+<AnchorPane id="AnchorPane" prefHeight="697.0" prefWidth="853.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cine.CrearPeliculaController">
    <children>
-      <Label layoutX="481.0" layoutY="96.0" text="Imagen de la pelicula" />
-      <Label layoutX="302.0" layoutY="37.0" text="Agregar Pelicula">
-         <font>
-            <Font name="Arial Black" size="23.0" />
-         </font>
-      </Label>
-      <JFXButton fx:id="btnAgregarPeli" layoutX="343.0" layoutY="423.0" onAction="#Action_AgregarPelicula" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: #51DFCB;" text="Agregar" />
-      <JFXButton fx:id="btnSeleccionar" layoutX="637.0" layoutY="92.0" onAction="#Seleccionar_Imagen" style="-fx-background-color: #51DFCB;" text="Seleccionar" />
-      <JFXTextField fx:id="txtTitulo" labelFloat="true" layoutX="80.0" layoutY="90.0" prefHeight="29.0" prefWidth="260.0" promptText="Título" />
-      <JFXTextField fx:id="txtDirector" labelFloat="true" layoutX="80.0" layoutY="160.0" prefHeight="29.0" prefWidth="260.0" promptText="Director" />
-      <JFXTextField fx:id="txtEstado" labelFloat="true" layoutX="80.0" layoutY="345.0" prefHeight="29.0" prefWidth="99.0" promptText="Estado" text="1" />
-      <JFXTextArea fx:id="txtDescripcion" labelFloat="true" layoutX="80.0" layoutY="230.0" prefHeight="72.0" prefWidth="323.0" promptText="Descripción" />
-      <Label fx:id="lblValidacion" layoutX="86.0" layoutY="406.0" prefHeight="17.0" prefWidth="200.0" textFill="#dd1c1c" />
-      <ImageView fx:id="Imagen" fitHeight="700.0" fitWidth="200.0" layoutX="537.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@pelicula.png" />
-         </image></ImageView>
+      <Pane prefHeight="55.0" prefWidth="885.0" style="-fx-background-color: #7da8f8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Label layoutX="336.0" layoutY="10.0" text="Agregar estreno">
+               <font>
+                  <Font name="Arial Black" size="23.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="34.0" layoutY="55.0" prefHeight="644.0" prefWidth="785.0" AnchorPane.bottomAnchor="-2.0" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="55.0">
+         <children>
+            <Label layoutX="451.0" layoutY="54.0" text="Imagen de la pelicula" />
+            <JFXButton fx:id="btnAgregarPeli" buttonType="RAISED" layoutX="477.0" layoutY="412.0" onAction="#Action_AgregarPelicula" prefHeight="35.0" prefWidth="99.0" style="-fx-background-color: #51DFCB;" text="Agregar" />
+            <JFXButton fx:id="btnSeleccionar" buttonType="RAISED" layoutX="590.0" layoutY="45.0" onAction="#Seleccionar_Imagen" prefHeight="35.0" prefWidth="86.0" style="-fx-background-color: #51DFCB;" text="Seleccionar" />
+            <JFXTextField fx:id="txtTitulo" labelFloat="true" layoutX="29.0" layoutY="48.0" prefHeight="29.0" prefWidth="347.0" promptText="Título" />
+            <JFXTextField fx:id="txtDirector" labelFloat="true" layoutX="28.0" layoutY="145.0" prefHeight="29.0" prefWidth="347.0" promptText="Director" />
+            <JFXTextArea fx:id="txtDescripcion" labelFloat="true" layoutX="28.0" layoutY="475.0" prefHeight="113.0" prefWidth="347.0" promptText="Sinopsis" />
+            <JFXTextField fx:id="txtAnio" labelFloat="true" layoutX="29.0" layoutY="225.0" prefHeight="29.0" prefWidth="160.0" promptText="Año" />
+            <JFXButton fx:id="btnCancelar" buttonType="RAISED" layoutX="590.0" layoutY="412.0" onAction="#Cancelar" prefHeight="35.0" prefWidth="112.0" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE" />
+            <JFXComboBox fx:id="cmbClasificacion" layoutX="29.0" layoutY="299.0" prefHeight="25.0" prefWidth="160.0" promptText="Clasificación" />
+            <JFXTextField fx:id="txtDuracion" layoutX="203.0" layoutY="227.0" prefHeight="25.0" prefWidth="183.0" promptText="Duración en minutos" />
+            <JFXTextField fx:id="txtPais" labelFloat="true" layoutX="28.0" layoutY="383.0" prefHeight="29.0" prefWidth="347.0" promptText="País" />
+            <ImageView fx:id="Imagen" fitHeight="209.0" fitWidth="203.0" layoutX="490.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="lblTitulo" layoutX="30.0" layoutY="108.0" text="fgdfgdf" textFill="RED" visible="false" />
+            <Label fx:id="lblSinopsis" layoutX="28.0" layoutY="598.0" text="fdfsfsd" textFill="RED" visible="false" />
+            <Label fx:id="lblDirector" layoutX="29.0" layoutY="190.0" text="fdsfds" textFill="RED" visible="false" />
+            <Label fx:id="lblDuracion" layoutX="202.0" layoutY="265.0" text="erewre" textFill="RED" visible="false" />
+            <Label fx:id="lblAnio" layoutX="28.0" layoutY="265.0" text="fdfs" textFill="RED" visible="false" />
+            <Label fx:id="lblPais" layoutX="30.0" layoutY="439.0" text="ffdsfd" textFill="RED" visible="false" />
+            <Label fx:id="lblClasificacion" layoutX="207.0" layoutY="314.0" text="fdsfd" textFill="RED" visible="false" />
+            <Label fx:id="lblImagen" layoutX="451.0" layoutY="91.0" text="ffdsfd" textFill="RED" visible="false" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

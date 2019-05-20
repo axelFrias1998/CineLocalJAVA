@@ -5,161 +5,170 @@
  */
 package cine;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 import com.jfoenix.controls.JFXButton;
+import java.net.URL;
+import javafx.fxml.Initializable;
+import com.jfoenix.controls.JFXDecorator;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.validation.NumberValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import javafx.beans.value.ChangeListener;
+import java.util.Optional;
+import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 public class RegistroAdministradorController implements Initializable {
 
-     @FXML
-    private JFXTextField txtPass;
+    @FXML
+    private JFXPasswordField txtPass, txtConfirma;
 
     @FXML
-    private JFXTextField txtNombre;
+    private JFXTextField txtNombre, txtEmail;
 
     @FXML
-    private Label lblValidacion;
-
-    @FXML
-    private JFXTextField txtEmail;
-
-    @FXML
-    private JFXTextField txtSaldo;
-
-    @FXML
-    private JFXTextField txtRol;
-
-    @FXML
-    private JFXButton btnAgregar;
+    private Label lblNombre, lblPass, lblConfirma, lblEmail;
 
     @FXML
     private void Action_AgregarRegistro(ActionEvent event)throws IOException, ClassNotFoundException, SQLException {
         
-        if(!txtNombre.getText().isEmpty() && !"".equals(txtEmail.getText()) && !"".equals(txtPass.getText()) && txtSaldo.getText().length()!=0 && txtRol.getText().length()!=0){    
-            if(Validaciones.validaEmail(txtEmail.getText()) && Validaciones.validaNombre(txtNombre.getText())){
-                try{
-                    float saldo = Float.parseFloat(txtSaldo.getText());
-                    int rol = Integer.parseInt(txtRol.getText());
-                
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3308/CineDB?useTimezone=true&serverTimezone=UTC","root","");
-                
-                    //Objeto llamada procedimiento almacenado
-                    CallableStatement call = con.prepareCall("{call registroUsuario_sp(?, ?, ?, ?, ?)}");
-                    //Envío parámetro a procedimiento almacenado
-                    call.setString(1, txtNombre.getText());
-                    call.setString(2, txtEmail.getText());
-                    call.setString(3, txtPass.getText());
-                    call.setFloat(4, saldo);
-                    call.setInt(5, rol);
-                    call.executeUpdate();
-                
-                    txtNombre.setText("");
-                    txtEmail.setText("");
-                    txtPass.setText("");
-                    txtSaldo.setText("");
-                    
-                    lblValidacion.setVisible(false);
-                    System.out.println("Datos gurdados correctamente");
-                
-                    con.close();
-                    
-                }catch(SQLException ex){ System.out.println(ex);};
+        if(txtNombre.validate() && txtEmail.validate() && txtPass.validate()){
+            if(Validaciones.validaEmail(txtEmail.getText()) && Validaciones.validaNombre(txtNombre.getText()) && txtPass.getText().length() >= 6  && txtConfirma.getText().equals(txtPass.getText())){
+                System.out.println("AQUI TAMBIEN");
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmación");
+                    alert.setContentText("¿Los datos del administrador son los correctos?");
+                    Optional<ButtonType> result =alert.showAndWait();
+                    if(result.get() == ButtonType.OK){
+                        Class.forName("com.mysql.cj.jdbc.Driver");
+                        //Objeto llamada procedimiento almacenado
+                        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98")) {
+                            //Objeto llamada procedimiento almacenado
+                            CallableStatement call = con.prepareCall("{call registroUsuario_sp(?, ?, ?, ?, ?)}");
+                            //Envío parámetro a procedimiento almacenado
+                            call.setString(1, txtNombre.getText());
+                            call.setString(2, txtEmail.getText());
+                            call.setString(3, txtPass.getText());
+                            call.setFloat(4, 0);
+                            call.setInt(5, 1);
+                            call.executeQuery();
+                        }catch(SQLException ex){ System.out.println(ex);};
+                        
+                        Alert correcto = new Alert(Alert.AlertType.INFORMATION);
+                        correcto.setTitle("¡Éxito!");
+                        correcto.setContentText("Los datos del administrador se han agregado correctamente");
+                        correcto.showAndWait();
+                        
+                        Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
+                        actual.hide();
+
+                        Parent root = FXMLLoader.load(getClass().getResource("Inicio.fxml"));
+                        Stage stage = new Stage();
+                        JFXDecorator decorator = new JFXDecorator(stage, root);
+                        decorator.setCustomMaximize(true);
+                        Scene scene = new Scene(decorator);
+                        String estilo = getClass().getResource("estilos.css").toExternalForm();
+                        scene.getStylesheets().add(estilo);
+                        stage.setScene(scene);
+                        stage.show();
+                    }
             }
-            else if (!Validaciones.validaEmail(txtEmail.getText())){
-                    lblValidacion.setText("Correo invalido, introduzca un correo valido");
-                    lblValidacion.setVisible(true);
+            else{
+                if(Validaciones.validaEmail(txtEmail.getText()))
+                    lblEmail.setStyle("visibility : false");
+                else{
+                    lblEmail.setStyle("visibility : true");
+                    lblEmail.setText("Ingresa un correo válido");
                 }
-            else if (!Validaciones.validaNombre(txtNombre.getText())){
-                    lblValidacion.setText("Nombre invalido, introduzca un nombre valido");
-                    lblValidacion.setVisible(true);
+                if(Validaciones.validaNombre(txtNombre.getText()))
+                    lblNombre.setStyle("visibility : false");
+                else{
+                    lblNombre.setStyle("visibility : true");
+                    lblNombre.setText("Ingresa un nombre válido");
                 }
-            
+                if(txtPass.getText().length() >= 6)
+                    lblPass.setStyle("visibility : false");
+                else{
+                    lblPass.setStyle("visibility : true");
+                    lblPass.setText("La contraseña debe tener 6 caracteres o más");
+                }
+                if(txtConfirma.getText().equals(txtPass.getText()))
+                    lblConfirma.setStyle("visibility: false");
+                else{
+                    lblPass.setStyle("visibility : true");
+                    lblPass.setText("Las contraseñas deben coincidir");
+                }
+            }
         }else {
-            lblValidacion.setText("¡Ingresa todos los datos!");lblValidacion.setVisible(true);  }
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Sin datos");
+            alert.setContentText("Ingresa los datos del administrador");
+            alert.showAndWait();
+        }
+    }
+    
+    @FXML
+    void Cancelar(ActionEvent event) throws IOException {
+        Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
+        actual.hide();
+
+        Parent root = FXMLLoader.load(getClass().getResource("Inicio.fxml"));
+        Stage stage = new Stage();
+        JFXDecorator decorator = new JFXDecorator(stage, root);
+        decorator.setCustomMaximize(true);
+        Scene scene = new Scene(decorator);
+        String estilo = getClass().getResource("estilos.css").toExternalForm();
+        scene.getStylesheets().add(estilo);
+        stage.setScene(scene);
+        stage.show();
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         RequiredFieldValidator  validarNombre = new RequiredFieldValidator();
         txtNombre.getValidators().add(validarNombre);
-        validarNombre.setMessage("Ingresar Nombre");       
+        validarNombre.setMessage("Ingresa el nombre del nuevo administrador");       
         txtNombre.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
             if(!newValue)
-            {
                 txtNombre.validate();
-            }
         });
         
         //Email
         RequiredFieldValidator  validarEmail = new RequiredFieldValidator();
         txtEmail.getValidators().add(validarEmail);
-        validarEmail.setMessage("Ingresar Email");       
+        validarEmail.setMessage("Ingresa un Email");       
         txtEmail.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
             if(!newValue)
-            {
                 txtEmail.validate();
-            }
         });
         
         //pass
         RequiredFieldValidator  validarPass = new RequiredFieldValidator();
         txtPass.getValidators().add(validarPass);
-        validarPass.setMessage("Ingresar Password");       
+        validarPass.setMessage("Ingresa su contraseña");       
         txtPass.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
             if(!newValue)
-            {
                 txtPass.validate();
-            }
         });
-        
-        //saldo
-        RequiredFieldValidator  validarSaldo = new RequiredFieldValidator();
-        txtSaldo.getValidators().add(validarSaldo);
-        validarSaldo.setMessage("Ingresar Saldo");       
-        txtSaldo.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+        RequiredFieldValidator  validarConfirma = new RequiredFieldValidator();
+        txtConfirma.getValidators().add(validarConfirma);
+        validarConfirma.setMessage("Ingresa su contraseña");       
+        txtConfirma.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
             if(!newValue)
-            {
-                txtSaldo.validate();
-            }
-        });
-        
-        NumberValidator  validarSaldo_float = new NumberValidator();
-        txtSaldo.getValidators().add(validarSaldo_float);
-        validarSaldo_float.setMessage("No se puede ingresar letras");       
-        txtSaldo.focusedProperty().addListener(new ChangeListener<Boolean>(){
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue)
-                {
-                    txtSaldo.validate();
-                }
-            }
-        });
-        
-        //rol
-        RequiredFieldValidator  validarRol = new RequiredFieldValidator();
-        txtRol.getValidators().add(validarRol);
-        validarRol.setMessage("Ingresar Rol");       
-        txtRol.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
-            if(!newValue)
-            {
-                txtRol.validate();
-            }
+                txtConfirma.validate();
         });
     }     
 }

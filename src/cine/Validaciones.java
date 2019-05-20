@@ -19,16 +19,38 @@ public class Validaciones {
     }
     public static boolean validaNombre(String nombre){
         boolean correcto;
-        Pattern p = Pattern.compile("[A-Z][a-z]+");
+        Pattern p = Pattern.compile("([A-ZÁ-ÚÑ][a-zá-úñ]+[ ]?)+");
         Matcher m = p.matcher(nombre);
         correcto = m.find() && m.group().equals(nombre);
         return correcto;
     }
     public static boolean validaTelefono(String tel){
         boolean correcto;
-        Pattern p = Pattern.compile("[0_9][0_9][0_9][0_9][0_9][0_9][0_9][0_9][0_9][0_9]");
+        Pattern p = Pattern.compile("[1_9][1_9][0_9][0_9][0_9][0_9][0_9][0_9][0_9][0_9]");
         Matcher m = p.matcher(tel);
         correcto = m.find() && m.group().equals(tel);
         return correcto;
+    }
+    public static boolean validaCadena(String Pelicula){
+        boolean correcto;
+        Pattern p = Pattern.compile("([A-ZÁ-ÚÑ0-9:,][a-zá-úñ0-9:,]+[ ]?)+");
+        Matcher m = p.matcher(Pelicula);
+        correcto = m.find() && m.group().equals(Pelicula);
+        return correcto;
+    }
+    
+    public static boolean validaAnio(String Anio){
+        boolean correcto;
+        Pattern p = Pattern.compile("[2][0][12][90]");
+        Matcher m = p.matcher(Anio);
+        correcto = m.find() && m.group().equals(Anio);
+        return correcto;
+    }
+    public static boolean validaDuracion(String Duracion){
+        boolean correcto = false;
+        if(Integer.parseInt(Duracion) > 20 && Integer.parseInt(Duracion) < 240)
+            return correcto = true;
+        else
+            return correcto;
     }
 }

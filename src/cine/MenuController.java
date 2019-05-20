@@ -87,7 +87,7 @@ public class MenuController implements Initializable {
         Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
         actual.hide();
 
-        Parent root = FXMLLoader.load(getClass().getResource("registroAdministrador.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("RegistroAdministrador.fxml"));
         Stage stage = new Stage();
         JFXDecorator decorator = new JFXDecorator(stage, root);
         decorator.setCustomMaximize(true);

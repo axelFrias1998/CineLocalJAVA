@@ -11,7 +11,6 @@ import com.jfoenix.controls.JFXDecorator;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
-import java.awt.Paint;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.CallableStatement;
@@ -20,7 +19,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,8 +31,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
-
 /**
  * FXML Controller class
  *
@@ -113,9 +109,9 @@ public class LoginController implements Initializable {
                         }
                         else{
                             Alert alert = new Alert(AlertType.ERROR);
-                                alert.setTitle("Error de credenciales");
-                                alert.setContentText("No existe dicho usuario");
-                                alert.showAndWait();
+                            alert.setTitle("Error de credenciales");
+                            alert.setContentText("No existe dicho usuario");
+                            alert.showAndWait();
                         }
                         
                         con.close();
@@ -124,14 +120,13 @@ public class LoginController implements Initializable {
             }
             else{
                 Alert alert = new Alert(AlertType.ERROR);
-                            alert.setTitle("Correo inválido");
-                            alert.setContentText("Ingresa un correo válido");
-                            alert.showAndWait();
+                alert.setTitle("Correo inválido");
+                alert.setContentText("Ingresa un correo válido");
+                alert.showAndWait();
             }    
         }
         else{
             Alert alert = new Alert(AlertType.ERROR);
-            
             alert.setTitle("Formulario incompleto");
             alert.setContentText("No puedes dejar campos vacíos");
             alert.showAndWait();
