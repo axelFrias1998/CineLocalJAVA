@@ -5,7 +5,6 @@
  */
 package cine;
 
-import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import javafx.fxml.Initializable;
 import com.jfoenix.controls.JFXDecorator;
@@ -17,6 +16,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
@@ -29,10 +29,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class RegistroAdministradorController implements Initializable {
 
+    @FXML
+    private AnchorPane contenido;
     @FXML
     private JFXPasswordField txtPass, txtConfirma;
 
@@ -53,37 +56,52 @@ public class RegistroAdministradorController implements Initializable {
                     alert.setContentText("¿Los datos del administrador son los correctos?");
                     Optional<ButtonType> result =alert.showAndWait();
                     if(result.get() == ButtonType.OK){
+                        boolean existe = false;
                         Class.forName("com.mysql.cj.jdbc.Driver");
                         //Objeto llamada procedimiento almacenado
                         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98")) {
                             //Objeto llamada procedimiento almacenado
-                            CallableStatement call = con.prepareCall("{call registroUsuario_sp(?, ?, ?, ?, ?)}");
+                            CallableStatement call = con.prepareCall("{call registroUsuario_sp(?, ?, ?, ?, ?, ?)}");
                             //Envío parámetro a procedimiento almacenado
                             call.setString(1, txtNombre.getText());
                             call.setString(2, txtEmail.getText());
                             call.setString(3, txtPass.getText());
                             call.setFloat(4, 0);
                             call.setInt(5, 1);
+                            call.registerOutParameter(6, Types.BOOLEAN);
                             call.executeQuery();
+                            existe = call.getBoolean(6);
                         }catch(SQLException ex){ System.out.println(ex);};
                         
-                        Alert correcto = new Alert(Alert.AlertType.INFORMATION);
-                        correcto.setTitle("¡Éxito!");
-                        correcto.setContentText("Los datos del administrador se han agregado correctamente");
-                        correcto.showAndWait();
-                        
-                        Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
-                        actual.hide();
+                        if(!existe){
+                            Alert correcto = new Alert(Alert.AlertType.INFORMATION);
+                            correcto.setTitle("¡Éxito!");
+                            correcto.setContentText("Los datos del administrador se han agregado correctamente");
+                            correcto.showAndWait();
+                            Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
+                            actual.hide();
 
-                        Parent root = FXMLLoader.load(getClass().getResource("Inicio.fxml"));
-                        Stage stage = new Stage();
-                        JFXDecorator decorator = new JFXDecorator(stage, root);
-                        decorator.setCustomMaximize(true);
-                        Scene scene = new Scene(decorator);
-                        String estilo = getClass().getResource("estilos.css").toExternalForm();
-                        scene.getStylesheets().add(estilo);
-                        stage.setScene(scene);
-                        stage.show();
+                            Parent root = FXMLLoader.load(getClass().getResource("Inicio.fxml"));
+                            Stage stage = new Stage();
+                            JFXDecorator decorator = new JFXDecorator(stage, root);
+                            decorator.setCustomMaximize(true);
+                            Scene scene = new Scene(decorator);
+                            String estilo = getClass().getResource("estilos.css").toExternalForm();
+                            scene.getStylesheets().add(estilo);
+                            stage.setScene(scene);
+                            stage.show();
+                        }else{
+                            Alert correcto = new Alert(Alert.AlertType.ERROR);
+                            correcto.setTitle("¡Error!");
+                            correcto.setContentText("El correo de administrador se ha registrado anteriormente");
+                            correcto.showAndWait();
+                            for(Node node: contenido.getChildren()){
+                                if(node instanceof JFXTextField)
+                                    ((JFXTextField)node).setText("");
+                                else if(node instanceof JFXPasswordField)
+                                    ((JFXPasswordField)node).setText("");
+                            }
+                        }
                     }
             }
             else{

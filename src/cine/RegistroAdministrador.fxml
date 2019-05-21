@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0" prefWidth="635.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cine.RegistroAdministradorController">
+<AnchorPane id="AnchorPane" fx:id="contenido" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0" prefWidth="635.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cine.RegistroAdministradorController">
    <children>
       <JFXTextField fx:id="txtNombre" labelFloat="true" layoutX="105.0" layoutY="87.0" prefHeight="25.0" prefWidth="425.0" promptText="Nombre" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="105.0" AnchorPane.topAnchor="87.0" />
       <JFXTextField fx:id="txtEmail" labelFloat="true" layoutX="105.0" layoutY="157.0" prefHeight="25.0" prefWidth="425.0" promptText="Email" />
