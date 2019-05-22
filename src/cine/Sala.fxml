@@ -33,12 +33,13 @@
                         </Label>
                         <JFXComboBox fx:id="cmbFilas" layoutX="43.0" layoutY="88.0" prefHeight="25.0" prefWidth="183.0" promptText="Filas de sala" />
                         <JFXComboBox fx:id="cmbColumnas" layoutX="43.0" layoutY="163.0" prefHeight="25.0" prefWidth="182.0" promptText="Columnas de sala" />
-                        <Pane layoutX="329.0" layoutY="75.0" prefHeight="150.0" prefWidth="295.0">
+                        <Pane fx:id="paneRes" layoutX="329.0" layoutY="81.0" prefHeight="162.0" prefWidth="311.0" visible="false">
                            <children>
                               <JFXButton buttonType="RAISED" layoutX="49.0" layoutY="97.0" onAction="#crearSala" prefHeight="44.0" prefWidth="90.0" style="-fx-background-color: #7da8f8;" text="Confirmar" />
                               <JFXButton buttonType="RAISED" layoutX="169.0" layoutY="96.0" onAction="#cancelar" prefHeight="44.0" prefWidth="90.0" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE" />
                               <Label layoutX="14.0" layoutY="14.0" text="Visualizacion en PDF generada." />
-                              <Label layoutX="14.0" layoutY="45.0" text="¿El formato de sala es el correcto?" />
+                              <Label layoutX="14.0" layoutY="64.0" text="¿El formato de sala es el correcto?" />
+                              <Label fx:id="lblTotalAsientos" layoutX="14.0" layoutY="38.0" />
                            </children>
                         </Pane>
                         <JFXButton buttonType="RAISED" layoutX="56.0" layoutY="239.0" onAction="#crearDisenio" prefHeight="45.0" prefWidth="156.0" style="-fx-background-color: #7da8f8;" text="Crear diseño de sala" />

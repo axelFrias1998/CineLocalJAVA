@@ -57,6 +57,7 @@ public class RegistroAdministradorController implements Initializable {
                     Optional<ButtonType> result =alert.showAndWait();
                     if(result.get() == ButtonType.OK){
                         boolean existe = false;
+                        
                         Class.forName("com.mysql.cj.jdbc.Driver");
                         //Objeto llamada procedimiento almacenado
                         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98")) {

@@ -2,12 +2,12 @@ package cine;
 
 public class SesionUsuario {
     
-        private static SesionUsuario instance;
-                
-        private String Nombre;
-        private String Correo;
-        private Integer Rol;
-        private Integer Id;
+    private static SesionUsuario instance;
+
+    private String Nombre;
+    private String Correo;
+    private Integer Rol;
+    private Integer Id;
 
     private SesionUsuario(String Nombre, String Correo, Integer Rol, Integer Id) {
         this.Nombre = Nombre;
@@ -16,17 +16,20 @@ public class SesionUsuario {
         this.Id = Id;
     }
     
-    public static SesionUsuario getInstance(String Nombre, String Correo, Integer Rol, Integer Id){
+    public static SesionUsuario setInstance(String Nombre, String Correo, Integer Rol, Integer Id){
         if(instance == null)
                 instance = new SesionUsuario(Nombre, Correo, Rol, Id);
         return instance;
     }
     
     public static SesionUsuario getInstance(){
-        
-                
             return instance;
-    } 
+    }
+    
+    public static void liberaUsuario(){
+        instance = null;
+    }
+    
     public String getNombre() {
         return Nombre;
     }
