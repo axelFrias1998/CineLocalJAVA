@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cine;
 
 import java.net.URL;
@@ -10,6 +5,7 @@ import javafx.fxml.Initializable;
 import com.jfoenix.controls.JFXDecorator;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.validation.RequiredFieldValidator;
 import java.io.IOException;
 import java.sql.CallableStatement;
@@ -33,7 +29,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class RegistroAdministradorController implements Initializable {
-
+    
     @FXML
     private AnchorPane contenido;
     @FXML
