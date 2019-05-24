@@ -1,63 +1,131 @@
 package cine;
 
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTreeTableColumn;
-import com.jfoenix.controls.JFXTreeTableView;
-import com.jfoenix.controls.RecursiveTreeItem;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import com.jfoenix.controls.JFXDecorator;
 import com.jfoenix.validation.RequiredFieldValidator;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.TableViewSelectionModel;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class SalaController implements Initializable {
 
-    @FXML
-    private JFXTreeTableView<Salas> tvSalas;
+    //Anexar Sala
+    @FXML private JFXComboBox<Integer> cmbFilas, cmbColumnas;    
+    @FXML private Pane paneRes;
+    @FXML private Label lblTotalAsientos;
+    //Control de salas
+    @FXML private TableView<Salas> tableSalas;
+    @FXML private TableColumn<Salas, Integer> colCapacidad;    
+    @FXML private TableColumn<Salas, Integer> colSala;
+    @FXML private TableColumn<Salas, String> colDisponible;
+    
+    
     
     @FXML
-    private JFXComboBox<Integer> cmbFilas, cmbColumnas;
+    void cambiarDisponibilidad(ActionEvent event) throws IOException {
+        if(tableSalas.getSelectionModel().getSelectedItem() != null){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            for(Salas s : tableSalas.getSelectionModel().getSelectedItems()){
+                if(s.isDisponible().equals("Disponible")){
+                    alert.setTitle("Confirmación");
+                    alert.setContentText("¿Deseas cambiar el estado de la sala a NO DISPONIBLE?");
+                    Optional<ButtonType> result =alert.showAndWait();
+                    if(result.get() == ButtonType.OK){
+                        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98")) {
+                            PreparedStatement stmt = con.prepareStatement("update sala set Disponible = false where Id = " + s.getId()  +";");
+                            stmt.executeUpdate();
+                            con.close();
+                        }catch(SQLException ex){ System.out.println(ex);}
+                        Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
+                        actual.hide();
+
+                        Parent root = FXMLLoader.load(getClass().getResource("Sala.fxml"));
+                        Stage stage = new Stage();
+                        JFXDecorator decorator = new JFXDecorator(stage, root);
+                        decorator.setCustomMaximize(true);
+                        Scene scene = new Scene(decorator);
+                        String estilo = getClass().getResource("estilos.css").toExternalForm();
+                        scene.getStylesheets().add(estilo);
+                        stage.setScene(scene);
+                        stage.show();
+                    }
+                }else{
+                    alert.setTitle("Confirmación");
+                    alert.setContentText("¿Deseas cambiar el estado de la sala a DISPONIBLE?");
+                    Optional<ButtonType> result =alert.showAndWait();
+                    if(result.get() == ButtonType.OK){
+                        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98")) {
+                            PreparedStatement stmt = con.prepareStatement("update sala set Disponible = true where Id = " + s.getId()  +";");
+                            stmt.executeUpdate();
+                            con.close();
+                        }catch(SQLException ex){ System.out.println(ex);}
+                        Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
+                        actual.hide();
+
+                        Parent root = FXMLLoader.load(getClass().getResource("Sala.fxml"));
+                        Stage stage = new Stage();
+                        JFXDecorator decorator = new JFXDecorator(stage, root);
+                        decorator.setCustomMaximize(true);
+                        Scene scene = new Scene(decorator);
+                        String estilo = getClass().getResource("estilos.css").toExternalForm();
+                        scene.getStylesheets().add(estilo);
+                        stage.setScene(scene);
+                        stage.show();
+                    }
+                }
+            } 
+        }else{
+            Alert alertE = new Alert(Alert.AlertType.ERROR);
+            alertE.setTitle("¡Error!");
+            alertE.setContentText("Selecciona el registro a modificar.");
+            alertE.showAndWait();
+        }
+    }
 
     @FXML
-    private Tab anexar, control, asignar;
+    void mostrarFormato(ActionEvent event) {
+
+    }
     
-    @FXML
-    private Pane paneRes;
-
-    @FXML
-    private Label lblTotalAsientos;
-//    public String RutaFormato = "C:/Users/axelf/Desktop/Proyecto Valdepeña/Cine/src/cine/Salas/Formatos/";
-
     @FXML
     void crearSala(ActionEvent event) throws ClassNotFoundException {
         int fila = 64;
         Class.forName("com.mysql.cj.jdbc.Driver");
-        //Objeto llamada procedimiento almacenado
-        
         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98")) {
             //Objeto llamada procedimiento almacenado
             CallableStatement call = con.prepareCall("{call nuevosAsientos_sp(?,?)}");
@@ -70,7 +138,7 @@ public class SalaController implements Initializable {
             }
             con.close();
             SesionSala.liberaSala();
-        }catch(SQLException ex){ System.out.println(ex);};
+        }catch(SQLException ex){ System.out.println(ex);}
     }
 
     @FXML
@@ -117,21 +185,18 @@ public class SalaController implements Initializable {
             alertE.setContentText("Ingresa el número de filas y columnas");
             alertE.showAndWait();
         }
-        
-        
-//        PdfWriter writer = new PdfWriter(RutaFormato + "prueba.pdf");
-//        PdfDocument pdf = new PdfDocument(writer);
-//        Document doc = new Document(pdf);
-//        doc.add(new Paragraph("Prueba"));
-//        doc.close();
     }
+    
+    
     @Override
-    @SuppressWarnings("empty-statement")
     public void initialize(URL url, ResourceBundle rb) {
+        iniciaRequiredField();
+        iniciaCMB();
+        iniciaTablas();
         
-        cmbFilas.getItems().addAll(6, 7, 8, 9, 10, 11, 12);
-        cmbColumnas.getItems().addAll(12, 13, 14, 15, 16);
-        
+    }
+    
+    public void iniciaRequiredField(){
         RequiredFieldValidator  validarFilas = new RequiredFieldValidator();
         cmbFilas.getValidators().add(validarFilas);
         validarFilas.setMessage("Selecciona un número de filas");       
@@ -146,46 +211,33 @@ public class SalaController implements Initializable {
             if(!newValue)
                 cmbColumnas.validate();
         });
-        
-        //TreeTable de Salas
-        JFXTreeTableColumn<Salas, String> idSala = new JFXTreeTableColumn<>("ID");
-        idSala.setPrefWidth(50);
-        idSala.setCellValueFactory((TreeTableColumn.CellDataFeatures<Salas, String> param) -> param.getValue().getValue().Id);
-        
-        JFXTreeTableColumn<Salas, String> asientosSala = new JFXTreeTableColumn<>("# Asientos");
-        asientosSala.setPrefWidth(60);
-        asientosSala.setCellValueFactory((TreeTableColumn.CellDataFeatures<Salas, String> param) -> param.getValue().getValue().NumAsientos);
-        
-        JFXTreeTableColumn<Salas, String> disponible = new JFXTreeTableColumn<>("Disponibilidad");
-        disponible.setPrefWidth(50);
-        disponible.setCellValueFactory((TreeTableColumn.CellDataFeatures<Salas, String> param) -> param.getValue().getValue().Disponible);
-        
-        ObservableList<Salas> salas = FXCollections.observableArrayList();
-        
-        //Objeto llamada procedimiento almacenado
+    }
+    
+    public void iniciaCMB(){
+        cmbFilas.getItems().addAll(6, 7, 8, 9, 10, 11, 12);
+        cmbColumnas.getItems().addAll(12, 13, 14, 15, 16);
+    }
+    
+    ObservableList<Salas> listaSala = FXCollections.observableArrayList();
+    public void iniciaTablas(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98");
             //Objeto llamada procedimiento almacenado
             CallableStatement call = con.prepareCall("{call tablaSalas_sp()}");
             //Envío parámetro a procedimiento almacenado
-
+            List<Salas> lista = new ArrayList();
             ResultSet rs = call.executeQuery();
+
             while(rs.next()){
-                System.out.println(Integer.toString(rs.getInt(1)));
-                System.out.println(Integer.toString(rs.getInt(2) * rs.getInt(3)));
-                System.out.println(Boolean.toString(rs.getBoolean(4)));
-                salas.add(new Salas(new SimpleStringProperty(Integer.toString(rs.getInt(1))), new SimpleStringProperty(Integer.toString(rs.getInt(2) * rs.getInt(3))), 
-                        new SimpleStringProperty(Boolean.toString(rs.getBoolean(4)))));
+                listaSala.add(new Salas(rs.getInt(1),rs.getInt(2) * rs.getInt(3), (rs.getBoolean(4) == true) ? "Disponible" : "No disponible"));
             }
         }catch(SQLException ex){ System.out.println(ex);} catch (ClassNotFoundException ex) {
             Logger.getLogger(RegistroAdministradorController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        final TreeItem<Salas> root = new RecursiveTreeItem<>(salas, RecursiveTreeObject::getChildren);
-//        tvSalas.getColumns().addAll(idSala, asientosSala, disponible);
-//        tvSalas.setRoot(root);
-//        tvSalas.setShowRoot(false);
-    }    
-
-    
+        colSala.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colCapacidad.setCellValueFactory(new PropertyValueFactory<>("asientos"));
+        colDisponible.setCellValueFactory(new PropertyValueFactory<Salas, String>("disponible"));
+        tableSalas.setItems(listaSala);      
+    }
 }

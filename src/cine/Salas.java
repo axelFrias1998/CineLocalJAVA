@@ -1,21 +1,45 @@
 package cine;
 
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.beans.property.StringProperty;
+public class Salas {
+    int id, asientos;
+    String disponible;
+//    public SimpleStringProperty proyectando = new SimpleStringProperty();
 
-class Salas extends RecursiveTreeObject<Salas> {
-    StringProperty Id;
-    StringProperty NumAsientos;
-    StringProperty Disponible;
-
-    public Salas(StringProperty Id, StringProperty NumAsientos, StringProperty Disponible) {
-        this.Id = Id;
-        this.NumAsientos = NumAsientos;
-        this.Disponible = Disponible;
+    public Salas(int id, int asientos, String disponible) {
+        this.id = id;
+        this.asientos = asientos;
+        this.disponible = disponible;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getAsientos() {
+        return asientos;
+    }
+
+    public void setAsientos(int asientos) {
+        this.asientos = asientos;
+    }
+
+    public String isDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(String disponible) {
+        this.disponible = disponible;
+    }
+
+    
     @Override
     public String toString() {
-        return "Salas{" + "Id=" + Id + ", NumAsientos=" + NumAsientos + ", Disponible=" + Disponible + '}';
+        return "Salas{" + "id=" + id + ", asientos=" + asientos + ", disponible=" + disponible + '}';
     }
+
+    
 }

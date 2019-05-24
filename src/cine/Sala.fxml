@@ -8,22 +8,46 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="512.0" prefWidth="728.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cine.SalaController">
+<AnchorPane id="AnchorPane" prefHeight="591.0" prefWidth="899.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cine.SalaController">
    <children>
       <TabPane layoutY="55.0" prefHeight="345.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0">
         <tabs>
           <Tab fx:id="control" text="Control de salas">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="504.0" prefWidth="847.0">
                      <children>
-                        <JFXTreeTableView />
+                        <TableView fx:id="tableSalas" layoutX="22.0" layoutY="49.0" prefHeight="267.0" prefWidth="318.0">
+                          <columns>
+                            <TableColumn fx:id="colSala" prefWidth="94.0" text="Sala" />
+                            <TableColumn fx:id="colCapacidad" prefWidth="90.0" text="Capacidad" />
+                            <TableColumn fx:id="colDisponible" prefWidth="131.0" text="Disponible" />
+                          </columns>
+                        </TableView>
+                        <JFXButton fx:id="btnDisponible" buttonType="RAISED" layoutX="22.0" layoutY="320.0" onAction="#cambiarDisponibilidad" prefHeight="45.0" prefWidth="145.0" ripplerFill="#90c384" text="Cambiar disponibilidad" />
+                        <JFXButton fx:id="btnFormato" buttonType="RAISED" layoutX="181.0" layoutY="320.0" onAction="#mostrarFormato" prefHeight="45.0" prefWidth="145.0" ripplerFill="#90c384" text="Mostrar formato" />
+                        <Label layoutX="22.0" layoutY="22.0" text="Lista de salas registradas" />
+                        <TableView layoutX="372.0" layoutY="49.0" prefHeight="266.0" prefWidth="446.0">
+                          <columns>
+                            <TableColumn fx:id="colInicio" prefWidth="144.0" text="Titulo" />
+                            <TableColumn fx:id="colHorario" prefWidth="91.0" text="Horario" />
+                              <TableColumn fx:id="colFecha" prefWidth="101.0" text="Fecha" />
+                              <TableColumn fx:id="colTipo" prefWidth="109.0" text="Tipo proyeccion" />
+                          </columns>
+                        </TableView>
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
           <Tab fx:id="asignar" text="Asignar funciones">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <DatePicker fx:id="dtmFechaFuncion" layoutX="302.0" layoutY="67.0" promptText="Fecha proyeccion" />
+                        <ComboBox fx:id="cmbSala" layoutX="87.0" layoutY="159.0" prefWidth="150.0" promptText="Sala" />
+                        <ComboBox fx:id="cmbPelicula" layoutX="50.0" layoutY="67.0" prefHeight="25.0" prefWidth="223.0" promptText="Película" />
+                        <ComboBox fx:id="cmbHoraInicio" layoutX="514.0" layoutY="67.0" prefWidth="150.0" promptText="Hora inicio" />
+                        <ComboBox fx:id="cmbTipoProyeccion" layoutX="302.0" layoutY="159.0" prefWidth="150.0" promptText="Tipo de proyección" />
+                     </children></AnchorPane>
             </content>
           </Tab>
             <Tab fx:id="anexar" text="Anexar sala">

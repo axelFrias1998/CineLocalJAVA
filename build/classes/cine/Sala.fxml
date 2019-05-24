@@ -16,7 +16,15 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <JFXTreeTableView />
+                        <TableView fx:id="tableSalas" layoutX="36.0" layoutY="72.0" prefHeight="235.0" prefWidth="447.0">
+                          <columns>
+                            <TableColumn fx:id="colSala" prefWidth="94.0" text="Sala" />
+                            <TableColumn fx:id="colCapacidad" prefWidth="90.0" text="Capacidad" />
+                            <TableColumn fx:id="colDisponible" prefWidth="131.0" text="Disponible" />
+                          </columns>
+                        </TableView>
+                        <JFXButton fx:id="btnDisponible" buttonType="RAISED" layoutX="532.0" layoutY="111.0" onAction="#cambiarDisponibilidad" prefHeight="45.0" prefWidth="145.0" ripplerFill="#90c384" text="Cambiar disponibilidad" />
+                        <JFXButton fx:id="btnFormato" buttonType="RAISED" layoutX="532.0" layoutY="190.0" prefHeight="45.0" prefWidth="145.0" ripplerFill="#90c384" text="Mostrar formato" />
                      </children>
                   </AnchorPane>
             </content>
