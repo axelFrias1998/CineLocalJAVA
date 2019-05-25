@@ -8,30 +8,58 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="512.0" prefWidth="728.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cine.SalaController">
+<AnchorPane id="AnchorPane" prefHeight="591.0" prefWidth="899.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cine.SalaController">
    <children>
       <TabPane layoutY="55.0" prefHeight="345.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0">
         <tabs>
           <Tab fx:id="control" text="Control de salas">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="504.0" prefWidth="847.0">
                      <children>
-                        <TableView fx:id="tableSalas" layoutX="36.0" layoutY="72.0" prefHeight="235.0" prefWidth="447.0">
+                        <TableView fx:id="tableSalas" layoutX="22.0" layoutY="49.0" prefHeight="267.0" prefWidth="318.0">
                           <columns>
                             <TableColumn fx:id="colSala" prefWidth="94.0" text="Sala" />
                             <TableColumn fx:id="colCapacidad" prefWidth="90.0" text="Capacidad" />
                             <TableColumn fx:id="colDisponible" prefWidth="131.0" text="Disponible" />
                           </columns>
                         </TableView>
-                        <JFXButton fx:id="btnDisponible" buttonType="RAISED" layoutX="532.0" layoutY="111.0" onAction="#cambiarDisponibilidad" prefHeight="45.0" prefWidth="145.0" ripplerFill="#90c384" text="Cambiar disponibilidad" />
-                        <JFXButton fx:id="btnFormato" buttonType="RAISED" layoutX="532.0" layoutY="190.0" prefHeight="45.0" prefWidth="145.0" ripplerFill="#90c384" text="Mostrar formato" />
+                        <JFXButton fx:id="btnDisponible" buttonType="RAISED" layoutX="22.0" layoutY="320.0" onAction="#cambiarDisponibilidad" prefHeight="45.0" prefWidth="145.0" ripplerFill="#90c384" text="Cambiar disponibilidad" />
+                        <JFXButton fx:id="btnFormato" buttonType="RAISED" layoutX="181.0" layoutY="320.0" onAction="#mostrarFormato" prefHeight="45.0" prefWidth="145.0" ripplerFill="#90c384" text="Mostrar formato" />
+                        <Label layoutX="22.0" layoutY="22.0" text="Lista de salas registradas" />
+                        <TableView fx:id="tablaControl" layoutX="372.0" layoutY="49.0" prefHeight="266.0" prefWidth="446.0">
+                          <columns>
+                            <TableColumn fx:id="colInicioControl" prefWidth="144.0" text="Titulo" />
+                            <TableColumn fx:id="colHorarioControl" prefWidth="91.0" text="Horario" />
+                              <TableColumn fx:id="colFechaControl" prefWidth="101.0" text="Fecha" />
+                              <TableColumn fx:id="colTipoControl" prefWidth="109.0" text="Tipo proyeccion" />
+                          </columns>
+                        </TableView>
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
           <Tab fx:id="asignar" text="Asignar funciones">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <DatePicker fx:id="dtmFechaFuncion" editable="false" layoutX="302.0" layoutY="92.0" promptText="Fecha proyección" />
+                        <ComboBox fx:id="cmbSala" layoutX="36.0" layoutY="159.0" prefWidth="150.0" promptText="Sala" />
+                        <ComboBox fx:id="cmbPelicula" layoutX="36.0" layoutY="92.0" prefHeight="25.0" prefWidth="223.0" promptText="Película" />
+                        <ComboBox fx:id="cmbHoraInicio" layoutX="227.0" layoutY="159.0" prefWidth="150.0" promptText="Hora inicio" />
+                        <ComboBox fx:id="cmbTipoProyeccion" layoutX="501.0" layoutY="92.0" prefWidth="150.0" promptText="Tipo de proyección" />
+                        <Label layoutX="36.0" layoutY="36.0" text="Asigna una función a alguna sala. Si el horario está ocupado, no podrás agregarla a tu itinerario" />
+                        <TableView fx:id="tablaFuncionesSala" layoutX="36.0" layoutY="254.0" prefHeight="235.0" prefWidth="404.0" visible="false">
+                          <columns>
+                            <TableColumn fx:id="colIdFuncion" prefWidth="75.0" text="ID" />
+                            <TableColumn fx:id="colSalaFuncion" prefWidth="145.0" text="Título" />
+                              <TableColumn fx:id="colInicio" prefWidth="89.0" text="Inicio" />
+                              <TableColumn fx:id="colFin" prefWidth="94.0" text="Fin" />
+                          </columns>
+                        </TableView>
+                        <Label fx:id="lblProyectandose" layoutX="36.0" layoutY="221.0" text="Funciones proyectándose en la sala" visible="false" />
+                        <Label fx:id="lblDuracionAprox" layoutX="399.0" layoutY="163.0" text="dsa" />
+                        <JFXButton buttonType="RAISED" layoutX="526.0" layoutY="147.0" onAction="#agregarPelicula" prefHeight="49.0" prefWidth="101.0" ripplerFill="#489e9b" text="Agregar película" />
+                     </children></AnchorPane>
             </content>
           </Tab>
             <Tab fx:id="anexar" text="Anexar sala">
@@ -48,7 +76,6 @@
                         <Pane fx:id="paneRes" layoutX="329.0" layoutY="81.0" prefHeight="162.0" prefWidth="311.0" visible="false">
                            <children>
                               <JFXButton buttonType="RAISED" layoutX="49.0" layoutY="97.0" onAction="#crearSala" prefHeight="44.0" prefWidth="90.0" style="-fx-background-color: #7da8f8;" text="Confirmar" />
-                              <JFXButton buttonType="RAISED" layoutX="169.0" layoutY="96.0" onAction="#cancelar" prefHeight="44.0" prefWidth="90.0" style="-fx-background-color: red;" text="Cancelar" textFill="WHITE" />
                               <Label layoutX="14.0" layoutY="14.0" text="Visualizacion en PDF generada." />
                               <Label layoutX="14.0" layoutY="64.0" text="¿El formato de sala es el correcto?" />
                               <Label fx:id="lblTotalAsientos" layoutX="14.0" layoutY="38.0" />
@@ -63,6 +90,7 @@
       <Pane prefHeight="55.0" prefWidth="600.0" style="-fx-background-color: #7da8f8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Label layoutX="272.0" layoutY="19.0" text="Label" />
+            <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="15.0" onAction="#regresar" ripplerFill="RED" text="Regresar" />
          </children>
       </Pane>
    </children>
