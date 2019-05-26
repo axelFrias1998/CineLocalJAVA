@@ -21,6 +21,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -87,7 +88,7 @@ public class CrearPeliculaController implements Initializable {
    
     @FXML
     @SuppressWarnings("empty-statement")
-    private void Action_AgregarPelicula(ActionEvent event)throws IOException, ClassNotFoundException, SQLException {
+    private void Action_AgregarPelicula(ActionEvent event)throws IOException, ClassNotFoundException, SQLException, ParseException {
         FileInputStream files; 
         if(txtTitulo.validate() && txtDirector.validate() && txtAnio.validate() && txtDuracion.validate() && txtPais.validate() && txtDescripcion.validate() && cmbClasificacion.validate() && Imagen.getImage() != null){
             if(Validaciones.validaCadena(txtTitulo.getText()) && Validaciones.validaNombre(txtDirector.getText()) && Validaciones.validaAnio(txtAnio.getText()) && Validaciones.validaDuracion(txtDuracion.getText())
@@ -99,7 +100,7 @@ public class CrearPeliculaController implements Initializable {
                     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98");
 
                     //Objeto llamada procedimiento almacenado
-                    CallableStatement call = con.prepareCall("{call crearPelicula_sp(?, ?, ?, ?, ?, ?, ?, ?)}");
+                    CallableStatement call = con.prepareCall("{call crearPelicula_sp(?, ?, ?, ?, ?, ?, ?, ?, ?)}");
                     //Envío parámetro a procedimiento almacenado
                     call.setString(1, txtTitulo.getText());
                     call.setString(2, txtDirector.getText());
@@ -110,6 +111,7 @@ public class CrearPeliculaController implements Initializable {
                     call.setInt(6, Integer.parseInt(txtAnio.getText()));
                     call.setString(7, txtAnio.getText());
                     call.setString(8, cmbClasificacion.getValue());
+                    call.setInt(9, Integer.parseInt(txtDuracion.getText()));
                     call.executeUpdate();
                     con.close();
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);

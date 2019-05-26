@@ -57,8 +57,8 @@
                           </columns>
                         </TableView>
                         <Label fx:id="lblProyectandose" layoutX="36.0" layoutY="221.0" text="Funciones proyectándose en la sala" visible="false" />
-                        <Label fx:id="lblDuracionAprox" layoutX="399.0" layoutY="163.0" text="dsa" />
-                        <JFXButton buttonType="RAISED" layoutX="526.0" layoutY="147.0" onAction="#agregarPelicula" prefHeight="49.0" prefWidth="101.0" ripplerFill="#489e9b" text="Agregar película" />
+                        <Label fx:id="lblDuracionAprox" layoutX="399.0" layoutY="163.0" />
+                        <JFXButton buttonType="RAISED" layoutX="700.0" layoutY="77.0" onAction="#agregarPelicula" prefHeight="55.0" prefWidth="131.0" ripplerFill="#489e9b" text="Agregar película" />
                      </children></AnchorPane>
             </content>
           </Tab>

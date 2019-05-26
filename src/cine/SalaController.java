@@ -14,12 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
-import java.time.LocalDate;
+import java.sql.Types;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -38,7 +34,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -46,13 +41,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.converter.LocalDateStringConverter;
-import sun.plugin2.jvm.RemoteJVMLauncher.CallBack;
 
 
 public class SalaController implements Initializable {
     ObservableList<Salas> listaSala = FXCollections.observableArrayList();
+    ObservableList<Proyectando> listaProyectando = FXCollections.observableArrayList();
+
     //Anexar Sala
     @FXML private JFXComboBox<Integer> cmbFilas, cmbColumnas;    
     @FXML private Pane paneRes;
@@ -68,13 +63,68 @@ public class SalaController implements Initializable {
     @FXML private TableColumn<Funcion, Integer> colIdFuncion;
     @FXML private TableColumn<Funcion, String> colFin, colInicio, colSalaFuncion;
     @FXML private Label lblDuracionAprox, lblProyectandose;
-    @FXML  private TableView<Funcion> tablaFuncionesSala;
+    @FXML  private TableView<Proyectando> tablaFuncionesSala;
     @FXML private ComboBox<String> cmbTipoProyeccion, cmbPelicula, cmbHoraInicio;
     @FXML private ComboBox<Integer> cmbSala;
     
     @FXML
-    void agregarPelicula(ActionEvent event) {
-        
+    void agregarPelicula(ActionEvent event) throws ClassNotFoundException, IOException {
+        boolean traslape = false;
+        if(dtmFechaFuncion.getValue() != null && cmbTipoProyeccion.getValue() != null && cmbPelicula.getValue() != null && cmbHoraInicio.getValue() != null){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmación");
+            alert.setContentText("¿Los datos la función son los correctos?");
+            Optional<ButtonType> result =alert.showAndWait();
+            if(result.get() == ButtonType.OK){
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                        //Objeto llamada procedimiento almacenado
+                    try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98")) {
+                        //Objeto llamada procedimiento almacenado
+                        CallableStatement call = con.prepareCall("{call crearFuncion_sp(?, ?, ?, ?, ?, ?)}");
+                        //Envío parámetro a procedimiento almacenado
+                        call.setDate(1, java.sql.Date.valueOf(dtmFechaFuncion.getValue()));
+                        System.out.println(cmbHoraInicio.getValue());
+                        call.setString(2, cmbHoraInicio.getValue());
+                        call.setString(3, cmbPelicula.getValue());
+                        call.setString(4, cmbTipoProyeccion.getValue());
+                        call.setInt(5, cmbSala.getValue());
+                        call.registerOutParameter(6, Types.BOOLEAN);
+                        call.executeQuery();
+                        traslape = call.getBoolean(6);
+                    }catch(SQLException ex){ System.out.println(ex);};
+
+                    if(!traslape){
+                        Alert error = new Alert(Alert.AlertType.ERROR);
+                        error.setTitle("¡Error!");
+                        error.setContentText("Existe un traslape de horarios para tu función");
+                        error.showAndWait();
+                    }
+                    else if(traslape){
+                        Alert exito = new Alert(Alert.AlertType.INFORMATION);
+                        exito.setTitle("¡Éxito!");
+                        exito.setContentText("Se ha registrado tu función");
+                        exito.showAndWait();
+                        Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
+                        actual.hide();
+
+                        Parent root = FXMLLoader.load(getClass().getResource("Sala.fxml"));
+                        Stage stage = new Stage();
+                        JFXDecorator decorator = new JFXDecorator(stage, root);
+                        decorator.setCustomMaximize(true);
+                        Scene scene = new Scene(decorator);
+                        String estilo = getClass().getResource("estilos.css").toExternalForm();
+                        scene.getStylesheets().add(estilo);
+                        stage.setScene(scene);
+                        stage.show();
+                    }
+            }
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error de formulario");
+            alert.setContentText("Ingresa todos los datos del formulario");
+            alert.showAndWait();
+        }
     }
     
     @FXML
@@ -276,7 +326,7 @@ public class SalaController implements Initializable {
         cmbColumnas.getItems().addAll(12, 13, 14, 15, 16);
         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98")) {
             Statement stmt = con.createStatement();
-            ResultSet rsPelicula = stmt.executeQuery("Select Titulo from pelicula;");
+            ResultSet rsPelicula = stmt.executeQuery("Select Titulo from pelicula where Estado_Id = 1 or Estado_Id = 2;");
             while(rsPelicula.next())
                 cmbPelicula.getItems().add(rsPelicula.getString(1));
             ResultSet rsTProyeccion = stmt.executeQuery("Select Nombre from tipoproyeccion;");
@@ -292,34 +342,46 @@ public class SalaController implements Initializable {
         
         cmbSala.valueProperty().addListener(new ChangeListener<Integer>() {
         @Override public void changed(ObservableValue ov, Integer t, Integer t1) {
+            listaProyectando.clear();
             lblProyectandose.setVisible(true);
             lblProyectandose.setManaged(true);
             tablaFuncionesSala.setVisible(true);
             tablaFuncionesSala.setManaged(true);
-//            try{
-//                Class.forName("com.mysql.cj.jdbc.Driver");
-//                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98");
-//                //Objeto llamada procedimiento almacenado
-//                CallableStatement call = con.prepareCall("{call tablaSalas_sp()}");
-//                //Envío parámetro a procedimiento almacenado
-//                List<Salas> lista = new ArrayList();
-//                ResultSet rs = call.executeQuery();
-//
-//                while(rs.next()){
-//                    listaSala.add(new Salas(rs.getInt(1),rs.getInt(2) * rs.getInt(3), (rs.getBoolean(4) == true) ? "Disponible" : "No disponible"));
-//                }
-//            }catch(SQLException ex){ System.out.println(ex);} catch (ClassNotFoundException ex) {
-//                Logger.getLogger(RegistroAdministradorController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            colSala.setCellValueFactory(new PropertyValueFactory<>("id"));
-//            colCapacidad.setCellValueFactory(new PropertyValueFactory<>("asientos"));
-//            colDisponible.setCellValueFactory(new PropertyValueFactory<>("disponible"));
-//            tableSalas.setItems(listaSala);   
-            System.out.println(t1);
-        }    
-    });
+            tablaFunciones(t1);
+        }});
+        
+        cmbPelicula.valueProperty().addListener(new ChangeListener<String>() {
+        @Override public void changed(ObservableValue ov, String t, String t1) {
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98")) {
+            Statement stmt = con.createStatement();
+            ResultSet rsPelicula = stmt.executeQuery("Select Duracion from pelicula where Titulo = '" + t1+ "';");
+            if(rsPelicula.next())
+                lblDuracionAprox.setText("Tu película durará aproximadamente: " + rsPelicula.getTime(1) + " minutos.");
+            con.close();
+        }catch(SQLException ex){ System.out.println(ex);}
+        }});
     }
     
+    public void tablaFunciones(Integer t1){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98");
+            Statement stmt = con.createStatement();
+            ResultSet rsProyeccion = stmt.executeQuery("select funcion.Id, pelicula.Titulo, funcion.HoraInicio, funcion.HoraFin from  funcion INNER JOIN pelicula "
+                    + "ON funcion.Pelicula_Id = pelicula.Id where funcion.Sala_Id = " + t1 + ";");
+            while(rsProyeccion.next()){
+                listaProyectando.add(new Proyectando(rsProyeccion.getInt(1), rsProyeccion.getString(2), rsProyeccion.getString(3), rsProyeccion.getString(4)));
+                System.out.println(rsProyeccion.getInt(1) + rsProyeccion.getString(2) + rsProyeccion.getString(3) + rsProyeccion.getString(4));
+            }
+            }catch(SQLException ex){ System.out.println(ex);} catch (ClassNotFoundException ex) {
+                Logger.getLogger(RegistroAdministradorController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            colIdFuncion.setCellValueFactory(new PropertyValueFactory<>("id"));
+            colSalaFuncion.setCellValueFactory(new PropertyValueFactory<>("titulo"));
+            colInicio.setCellValueFactory(new PropertyValueFactory<>("inicio"));
+            colFin.setCellValueFactory(new PropertyValueFactory<>("fin"));
+            tablaFuncionesSala.setItems(listaProyectando);
+    }
     
     public void iniciaTablas(){
         try{
@@ -328,9 +390,7 @@ public class SalaController implements Initializable {
             //Objeto llamada procedimiento almacenado
             CallableStatement call = con.prepareCall("{call tablaSalas_sp()}");
             //Envío parámetro a procedimiento almacenado
-            List<Salas> lista = new ArrayList();
             ResultSet rs = call.executeQuery();
-
             while(rs.next()){
                 listaSala.add(new Salas(rs.getInt(1),rs.getInt(2) * rs.getInt(3), (rs.getBoolean(4) == true) ? "Disponible" : "No disponible"));
             }
@@ -340,7 +400,7 @@ public class SalaController implements Initializable {
         colSala.setCellValueFactory(new PropertyValueFactory<>("id"));
         colCapacidad.setCellValueFactory(new PropertyValueFactory<>("asientos"));
         colDisponible.setCellValueFactory(new PropertyValueFactory<>("disponible"));
-        tableSalas.setItems(listaSala);      
+        tableSalas.setItems(listaSala); 
     }
     
     @FXML
