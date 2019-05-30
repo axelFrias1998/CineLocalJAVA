@@ -60,12 +60,17 @@ public class SalaController implements Initializable {
     
     //Asignar funciones
     @FXML private DatePicker dtmFechaFuncion;
-    @FXML private TableColumn<Funcion, Integer> colIdFuncion;
-    @FXML private TableColumn<Funcion, String> colFin, colInicio, colSalaFuncion;
+    @FXML private TableColumn<Proyectando, Integer> colIdFuncion;
+    @FXML private TableColumn<Proyectando, String> colFin, colInicio, colSalaFuncion, colFechaFuncion;
     @FXML private Label lblDuracionAprox, lblProyectandose;
-    @FXML  private TableView<Proyectando> tablaFuncionesSala;
+    @FXML private TableView<Proyectando> tablaFuncionesSala;
     @FXML private ComboBox<String> cmbTipoProyeccion, cmbPelicula, cmbHoraInicio;
     @FXML private ComboBox<Integer> cmbSala;
+    
+    @FXML
+    
+    void mostrarFormato(ActionEvent event){
+    }
     
     @FXML
     void agregarPelicula(ActionEvent event) throws ClassNotFoundException, IOException {
@@ -83,7 +88,6 @@ public class SalaController implements Initializable {
                         CallableStatement call = con.prepareCall("{call crearFuncion_sp(?, ?, ?, ?, ?, ?)}");
                         //Envío parámetro a procedimiento almacenado
                         call.setDate(1, java.sql.Date.valueOf(dtmFechaFuncion.getValue()));
-                        System.out.println(cmbHoraInicio.getValue());
                         call.setString(2, cmbHoraInicio.getValue());
                         call.setString(3, cmbPelicula.getValue());
                         call.setString(4, cmbTipoProyeccion.getValue());
@@ -92,7 +96,7 @@ public class SalaController implements Initializable {
                         call.executeQuery();
                         traslape = call.getBoolean(6);
                     }catch(SQLException ex){ System.out.println(ex);};
-
+                    System.out.println(traslape);
                     if(!traslape){
                         Alert error = new Alert(Alert.AlertType.ERROR);
                         error.setTitle("¡Error!");
@@ -146,7 +150,7 @@ public class SalaController implements Initializable {
                         iniciaTablas();
                         iniciaCMB();
                     }
-                }else{
+                }else if(s.isDisponible().equals("No disponible")){
                     alert.setTitle("Confirmación");
                     alert.setContentText("¿Deseas cambiar el estado de la sala a DISPONIBLE?");
                     Optional<ButtonType> result =alert.showAndWait();
@@ -171,6 +175,9 @@ public class SalaController implements Initializable {
                                         call.executeQuery();
                                     }
                                 }
+                                PreparedStatement stmtUpdateExiste = con.prepareStatement("update sala set Disponible = true where Id = " + s.getId()  +";");
+                                stmtUpdateExiste.executeUpdate();
+                                SesionSala.liberaSala();
                             }
                             con.close();
                         }catch(SQLException ex){ System.out.println(ex);}
@@ -187,17 +194,14 @@ public class SalaController implements Initializable {
             alertE.showAndWait();
         }
     }
-
-    @FXML
-    void mostrarFormato(ActionEvent event) {
-
-    }
     
-    void agregarAsientos(int col, int fil) throws ClassNotFoundException{
+    @FXML
+    void agregarAsientos(ActionEvent event) throws ClassNotFoundException {
         int fila = 64;
         Class.forName("com.mysql.cj.jdbc.Driver");
         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98")) {
             //Objeto llamada procedimiento almacenado
+            
             CallableStatement call = con.prepareCall("{call nuevosAsientos_sp(?,?)}");
             for(int i = 1; i <= SesionSala.getInstance().getFilas(); i++){
                 for(int j = 1; j <= SesionSala.getInstance().getColumnas(); j++){
@@ -206,6 +210,8 @@ public class SalaController implements Initializable {
                     call.executeQuery();
                 }
             }
+            PreparedStatement stmtUpdateExiste = con.prepareStatement("update sala set Disponible = true where Id = " + SesionSala.getInstance().getIdSala() +";");
+            stmtUpdateExiste.executeUpdate();
             con.close();
             SesionSala.liberaSala();
         }catch(SQLException ex){ System.out.println(ex);}
@@ -213,26 +219,10 @@ public class SalaController implements Initializable {
         alert.setTitle("¡Èxito!");
         alert.setContentText("Tu sala se ha creado con sus asientos correspondientes");
         alert.showAndWait();
+        listaSala.clear();
         iniciaTablas();
-        
     }
     
-    @FXML
-    void crearSala(ActionEvent event) throws ClassNotFoundException, IOException {
-        Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
-        actual.hide();
-
-        Parent root = FXMLLoader.load(getClass().getResource("Sala.fxml"));
-        Stage stage = new Stage();
-        JFXDecorator decorator = new JFXDecorator(stage, root);
-        decorator.setCustomMaximize(true);
-        Scene scene = new Scene(decorator);
-        String estilo = getClass().getResource("estilos.css").toExternalForm();
-        scene.getStylesheets().add(estilo);
-        stage.setScene(scene);
-        stage.show();
-    }
-
     @FXML
     @SuppressWarnings("empty-statement")
     void crearDisenio(ActionEvent event) throws FileNotFoundException, ClassNotFoundException, SQLException {
@@ -326,7 +316,7 @@ public class SalaController implements Initializable {
         cmbColumnas.getItems().addAll(12, 13, 14, 15, 16);
         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98")) {
             Statement stmt = con.createStatement();
-            ResultSet rsPelicula = stmt.executeQuery("Select Titulo from pelicula where Estado_Id = 1 or Estado_Id = 2;");
+            ResultSet rsPelicula = stmt.executeQuery("Select Titulo from pelicula where Estado_Id != 3;");
             while(rsPelicula.next())
                 cmbPelicula.getItems().add(rsPelicula.getString(1));
             ResultSet rsTProyeccion = stmt.executeQuery("Select Nombre from tipoproyeccion;");
@@ -367,11 +357,11 @@ public class SalaController implements Initializable {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98");
             Statement stmt = con.createStatement();
-            ResultSet rsProyeccion = stmt.executeQuery("select funcion.Id, pelicula.Titulo, funcion.HoraInicio, funcion.HoraFin from  funcion INNER JOIN pelicula "
+            ResultSet rsProyeccion = stmt.executeQuery("select funcion.Id, funcion.Fecha, pelicula.Titulo, funcion.HoraInicio, funcion.HoraFin from  funcion INNER JOIN pelicula "
                     + "ON funcion.Pelicula_Id = pelicula.Id where funcion.Sala_Id = " + t1 + ";");
             while(rsProyeccion.next()){
-                listaProyectando.add(new Proyectando(rsProyeccion.getInt(1), rsProyeccion.getString(2), rsProyeccion.getString(3), rsProyeccion.getString(4)));
-                System.out.println(rsProyeccion.getInt(1) + rsProyeccion.getString(2) + rsProyeccion.getString(3) + rsProyeccion.getString(4));
+                listaProyectando.add(new Proyectando(rsProyeccion.getInt(1),rsProyeccion.getString(3), rsProyeccion.getString(4), rsProyeccion.getString(5), rsProyeccion.getString(2)));
+                System.out.println(rsProyeccion.getInt(1) + rsProyeccion.getString(2) + rsProyeccion.getString(3) + rsProyeccion.getString(4) + rsProyeccion.getString(5));
             }
             }catch(SQLException ex){ System.out.println(ex);} catch (ClassNotFoundException ex) {
                 Logger.getLogger(RegistroAdministradorController.class.getName()).log(Level.SEVERE, null, ex);
@@ -380,6 +370,7 @@ public class SalaController implements Initializable {
             colSalaFuncion.setCellValueFactory(new PropertyValueFactory<>("titulo"));
             colInicio.setCellValueFactory(new PropertyValueFactory<>("inicio"));
             colFin.setCellValueFactory(new PropertyValueFactory<>("fin"));
+            colFechaFuncion.setCellValueFactory(new PropertyValueFactory<>("fecha"));
             tablaFuncionesSala.setItems(listaProyectando);
     }
     

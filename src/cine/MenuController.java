@@ -24,27 +24,6 @@ import javafx.stage.Stage;
  * @author axelf
  */
 public class MenuController implements Initializable {
-
-    @FXML
-    private JFXButton btnAnexaSala;
-
-    @FXML
-    private JFXButton btnControlDeUsuarios;
-
-    @FXML
-    private JFXButton btnAgregaEstreno;
-
-    @FXML
-    private JFXButton btnEstadoPeliculas;
-
-    @FXML
-    private JFXButton btnCreaFuncion;
-
-    @FXML
-    private JFXButton btnOrdenesGeneradas;
-
-    @FXML
-    private JFXButton btnRegistro;
     
      @FXML
     void agregaEstreno(ActionEvent event) throws IOException {
@@ -63,13 +42,19 @@ public class MenuController implements Initializable {
     }
 
     @FXML
-    void estadoPeliculas(ActionEvent event) {
+    void estadoPeliculas(ActionEvent event) throws IOException {
+        Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
+        actual.hide();
 
-    }
-
-    @FXML
-    void creaFuncion(ActionEvent event) {
-
+        Parent root = FXMLLoader.load(getClass().getResource("EstadoPeliculas.fxml"));
+        Stage stage = new Stage();
+        JFXDecorator decorator = new JFXDecorator(stage, root);
+        decorator.setCustomMaximize(true);
+        Scene scene = new Scene(decorator);
+        String estilo = getClass().getResource("estilos.css").toExternalForm();
+        scene.getStylesheets().add(estilo);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
@@ -89,7 +74,19 @@ public class MenuController implements Initializable {
     }
 
     @FXML
-    void ordenesGeneradas(ActionEvent event) {
+    void ordenesGeneradas(ActionEvent event) throws IOException {
+        Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
+        actual.hide();
+
+        Parent root = FXMLLoader.load(getClass().getResource("Ordenes.fxml"));
+        Stage stage = new Stage();
+        JFXDecorator decorator = new JFXDecorator(stage, root);
+        decorator.setCustomMaximize(true);
+        Scene scene = new Scene(decorator);
+        String estilo = getClass().getResource("estilos.css").toExternalForm();
+        scene.getStylesheets().add(estilo);
+        stage.setScene(scene);
+        stage.show();
 
     }
 
@@ -110,7 +107,19 @@ public class MenuController implements Initializable {
     }
 
     @FXML
-    void controlUsuarios(ActionEvent event) {
+    void controlUsuarios(ActionEvent event) throws IOException {
+        Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
+        actual.hide();
+
+        Parent root = FXMLLoader.load(getClass().getResource("ControlUsuario.fxml"));
+        Stage stage = new Stage();
+        JFXDecorator decorator = new JFXDecorator(stage, root);
+        decorator.setCustomMaximize(true);
+        Scene scene = new Scene(decorator);
+        String estilo = getClass().getResource("estilos.css").toExternalForm();
+        scene.getStylesheets().add(estilo);
+        stage.setScene(scene);
+        stage.show();
 
     }
     

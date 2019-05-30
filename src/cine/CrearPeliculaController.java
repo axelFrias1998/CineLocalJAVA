@@ -91,7 +91,7 @@ public class CrearPeliculaController implements Initializable {
     private void Action_AgregarPelicula(ActionEvent event)throws IOException, ClassNotFoundException, SQLException, ParseException {
         FileInputStream files; 
         if(txtTitulo.validate() && txtDirector.validate() && txtAnio.validate() && txtDuracion.validate() && txtPais.validate() && txtDescripcion.validate() && cmbClasificacion.validate() && Imagen.getImage() != null){
-            if(Validaciones.validaCadena(txtTitulo.getText()) && Validaciones.validaNombre(txtDirector.getText()) && Validaciones.validaAnio(txtAnio.getText()) && Validaciones.validaDuracion(txtDuracion.getText())
+            if(Validaciones.validaNombre(txtDirector.getText()) && Validaciones.validaAnio(txtAnio.getText()) && Validaciones.validaDuracion(txtDuracion.getText())
                     && Validaciones.validaNombre(txtPais.getText())){
                 try{
                     File file = new File(fichero);
@@ -109,7 +109,7 @@ public class CrearPeliculaController implements Initializable {
                     call.setInt(4, 1);
                     call.setBlob(5, files);
                     call.setInt(6, Integer.parseInt(txtAnio.getText()));
-                    call.setString(7, txtAnio.getText());
+                    call.setString(7, txtPais.getText());
                     call.setString(8, cmbClasificacion.getValue());
                     call.setInt(9, Integer.parseInt(txtDuracion.getText()));
                     call.executeUpdate();

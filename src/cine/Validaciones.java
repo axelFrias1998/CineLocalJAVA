@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class Validaciones {
     public static boolean validaEmail(String correo){
         boolean correcto;
-        Pattern p = Pattern.compile("[a-zA-Z0_9][a-zA-Z0-9]*@[a-zA-Z0-9]+([.][a-z]+)+");
+        Pattern p = Pattern.compile("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");
         Matcher m = p.matcher(correo);
         correcto = m.find() && m.group().equals(correo);
         return correcto;

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="636.0" prefWidth="881.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="cine.EstadoPeliculasController">
+   <children>
+      <Pane prefHeight="55.0" prefWidth="881.0" style="-fx-background-color: #7da8f8;">
+         <children>
+            <Label layoutX="272.0" layoutY="19.0" text="Estado de películas">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="15.0" onAction="#regresar" ripplerFill="RED" text="Regresar" />
+         </children>
+      </Pane>
+      <TableView fx:id="tablaPeliculas" layoutX="37.0" layoutY="112.0" prefHeight="435.0" prefWidth="797.0">
+        <columns>
+            <TableColumn fx:id="colID" prefWidth="68.0" text="ID" />
+          <TableColumn fx:id="colNombre" prefWidth="130.0" text="Título" />
+          <TableColumn fx:id="colDirector" prefWidth="104.0" text="Director" />
+            <TableColumn fx:id="colAnio" prefWidth="75.0" text="Año" />
+            <TableColumn fx:id="colPais" prefWidth="112.0" text="País" />
+            <TableColumn fx:id="colClasificacion" prefWidth="82.0" text="Clasificación" />
+            <TableColumn fx:id="colDuracion" prefWidth="93.0" text="Duración" />
+            <TableColumn fx:id="colEstado" prefWidth="131.0" text="Estado" />
+        </columns>
+      </TableView>
+      <Label layoutX="37.0" layoutY="82.0" text="Consulta o realiza modificaciones sobre las películas registradas" />
+      <JFXButton buttonType="RAISED" layoutX="720.0" layoutY="561.0" onAction="#eliminarPelicula" prefHeight="45.0" prefWidth="114.0" text="Eliminar película" />
+      <JFXButton buttonType="RAISED" layoutX="43.0" layoutY="556.0" onAction="#cambiarDisponible" prefHeight="55.0" prefWidth="175.0" text="Cambiar estado a disponible" />
+      <JFXButton buttonType="RAISED" layoutX="337.0" layoutY="556.0" onAction="#cambiarNoDisponible" prefHeight="55.0" prefWidth="197.0" ripplerFill="#4ba131" text="Cambiar estado a no disponible" />
+   </children>
+</AnchorPane>

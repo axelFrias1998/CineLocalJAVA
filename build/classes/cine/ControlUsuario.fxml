@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cine.ControlUsuarioController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Pane prefHeight="50.0" prefWidth="902.0" style="-fx-background-color: #7da8f8;">
+               <children>
+                  <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="15.0" onAction="#regresar" ripplerFill="RED" text="Regresar" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="390.0" layoutY="9.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Usuarios">
+                     <font>
+                        <Font name="Arial Bold" size="28.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <HBox layoutX="216.0" layoutY="165.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+         <children>
+            <VBox prefHeight="440.0" prefWidth="290.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="24.0" HBox.hgrow="ALWAYS" />
+                        <VBox alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="177.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Selecciona un elemento para &#10;editar o eliminar" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="140.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <JFXButton fx:id="btnEditar" onAction="#Action_Editar" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #51DFCB;" text="Editar" VBox.vgrow="SOMETIMES" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <GridPane prefHeight="325.0" prefWidth="325.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXTextField fx:id="txtNombre" labelFloat="true" promptText="Nombre" GridPane.columnIndex="1" />
+                        <JFXTextField fx:id="txtEmail" labelFloat="true" promptText="Email" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <JFXTextField fx:id="txtSaldo" labelFloat="true" promptText="Saldo" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <JFXPasswordField fx:id="txtContraseña" labelFloat="true" promptText="Contraseña" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label fx:id="lblNombre" prefHeight="17.0" prefWidth="272.0" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="lblEmail" prefHeight="17.0" prefWidth="278.0" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="lblPass" prefHeight="17.0" prefWidth="280.0" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label fx:id="lblSaldo" prefHeight="17.0" prefWidth="308.0" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                     </children>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="25.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="287.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="20.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="107.0" prefWidth="42.0" HBox.hgrow="ALWAYS" />
+                        <VBox alignment="CENTER" prefHeight="72.0" prefWidth="115.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <JFXButton fx:id="btnActualizar" onAction="#Action_ActualizarUsuario" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #51DFCB;" text="Actualizar" VBox.vgrow="SOMETIMES" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="144.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <JFXButton fx:id="btnEliminar" onAction="#eliminarRegistro" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: red;" text="Borrar" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="450.0" prefWidth="540.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <TableView fx:id="tblUsuarios" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="clmnid" prefWidth="47.0" text="Id" />
+                        <TableColumn fx:id="clmnnombre" prefWidth="115.0" text="Nombre" />
+                        <TableColumn fx:id="clmncorreo" prefWidth="135.0" text="Email" />
+                        <TableColumn fx:id="clmnSaldo" prefWidth="84.0" text="Saldo" />
+                     </columns>
+                     <VBox.margin>
+                        <Insets bottom="40.0" right="20.0" />
+                     </VBox.margin>
+                  </TableView>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
