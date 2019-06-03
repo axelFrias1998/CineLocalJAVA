@@ -11,7 +11,7 @@ public class Cine extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Inicio.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         JFXDecorator decorator = new JFXDecorator(stage, root);
         decorator.setCustomMaximize(true);
         Scene scene = new Scene(decorator);

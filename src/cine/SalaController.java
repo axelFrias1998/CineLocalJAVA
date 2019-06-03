@@ -95,8 +95,21 @@ public class SalaController implements Initializable {
                         call.registerOutParameter(6, Types.BOOLEAN);
                         call.executeQuery();
                         traslape = call.getBoolean(6);
+                        //Asiento función
+                        Statement stmt = con.createStatement();
+                        ResultSet rs = stmt.executeQuery("select MAX(Id) from funcion;");
+                        int ultimaFuncion = 0;
+                        if(rs.next())
+                            ultimaFuncion = rs.getInt(1);
+                        ResultSet rsAF = stmt.executeQuery("Select * from asiento where Sala_Id = " + cmbSala.getValue() + ";");
+                        while(rsAF.next()){
+                            CallableStatement callA = con.prepareCall("{call nuevoAF_sp(?,?)}");
+                            callA.setInt(1, rsAF.getInt(1));
+                            callA.setInt(2, ultimaFuncion);
+                            callA.executeQuery();
+                        }
+                    con.close();
                     }catch(SQLException ex){ System.out.println(ex);};
-                    System.out.println(traslape);
                     if(!traslape){
                         Alert error = new Alert(Alert.AlertType.ERROR);
                         error.setTitle("¡Error!");

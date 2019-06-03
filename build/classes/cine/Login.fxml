@@ -14,5 +14,6 @@
       <JFXTextField fx:id="txtCorreo" focusColor="#7da8f8" labelFloat="true" layoutX="61.0" layoutY="80.0" prefHeight="25.0" prefWidth="227.0" promptText="Correo" unFocusColor="#4059a9" AnchorPane.leftAnchor="61.0" AnchorPane.rightAnchor="59.0" AnchorPane.topAnchor="80.0" />
       <JFXPasswordField fx:id="txtContrasenia" focusColor="#7da8f8" labelFloat="true" layoutX="60.0" layoutY="169.0" prefHeight="25.0" prefWidth="227.0" promptText="Contraseña" unFocusColor="#4059a9" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="169.0" />
       <JFXButton fx:id="btnInicia" buttonType="RAISED" layoutX="105.0" layoutY="265.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#IniciaSesion" prefHeight="48.0" prefWidth="139.0" style="-fx-background-color: #7da8f8;" text="Iniciar sesión" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="103.0" AnchorPane.topAnchor="265.0" />
+      <Label layoutX="60.0" layoutY="36.0" text="Bienvenido, administrador. Ingresa tus datos." />
    </children>
 </AnchorPane>

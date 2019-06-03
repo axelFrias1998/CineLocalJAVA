@@ -77,7 +77,7 @@ public class LoginController implements Initializable {
                             spPass = rs.getString(3);
                             spEmail = rs.getString(4);
                             if(spPass.equals(txtContrasenia.getText()) && Rol == 1){                                
-                                
+                                SesionUsuario.setInstance(spNombre, spEmail, Rol, Id);
                                 Stage actual = (Stage)((Node)event.getSource()).getScene().getWindow();
                                 actual.hide();
                                 
@@ -90,9 +90,6 @@ public class LoginController implements Initializable {
                                 scene.getStylesheets().add(estilo);
                                 stage.setScene(scene);
                                 stage.show();
-
-
-                                lblPrueba.setText(SesionUsuario.getInstance().getNombre());
                             }
                             else if(Rol != 1){
                                 Alert alert = new Alert(AlertType.ERROR);

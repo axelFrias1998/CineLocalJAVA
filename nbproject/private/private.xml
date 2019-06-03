@@ -4,10 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/axelf/Desktop/Proyecto%20Valdepeña/Cine/src/cine/SalaController.java</file>
-            <file>file:/C:/Users/axelf/Desktop/Proyecto%20Valdepeña/Cine/src/cine/Ordenes.fxml</file>
             <file>file:/C:/Users/axelf/Desktop/Proyecto%20Valdepeña/Cine/src/cine/Orden.java</file>
-            <file>file:/C:/Users/axelf/Desktop/Proyecto%20Valdepeña/Cine/src/cine/MenuController.java</file>
+            <file>file:/C:/Users/axelf/Desktop/Proyecto%20Valdepeña/Cine/src/cine/InicioController.java</file>
             <file>file:/C:/Users/axelf/Desktop/Proyecto%20Valdepeña/Cine/src/cine/OrdenesController.java</file>
+            <file>file:/C:/Users/axelf/Desktop/Proyecto%20Valdepeña/Cine/src/cine/LoginController.java</file>
             <file>file:/C:/Users/axelf/Desktop/Proyecto%20Valdepeña/Cine/src/cine/ControlUsuarioController.java</file>
         </group>
     </open-files>

@@ -40,8 +40,6 @@ public class OrdenesController implements Initializable {
     @FXML private TableView<Orden> tblOrdenes;
     @FXML private TableColumn<Orden, Integer> columId;
     @FXML private TableColumn<Orden, String> columFuncion;
-    @FXML private TableColumn<Orden, String> columEstado;
-    @FXML private TableColumn<Orden, String> columTipProy;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -52,24 +50,22 @@ public class OrdenesController implements Initializable {
     public void iniciaTablas(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3308/CineDB?useTimezone=true&serverTimezone=UTC","root","");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98");
            //Objeto llamada procedimiento almacenado
             CallableStatement call = con.prepareCall("{call mostrarOrdenes_sp()}");
             //Envío parámetro a procedimiento almacenado
             ResultSet rs = call.executeQuery();
             while(rs.next()){
-                listaOrdenes.add(new Orden(rs.getInt(1),rs.getFloat(2),(rs.getBoolean(3) == true) ? "Disponible" : "No disponible",rs.getDate(4),rs.getString(5),rs.getString(6),rs.getString(7)));
+                listaOrdenes.add(new Orden(rs.getInt(1),rs.getFloat(2), rs.getDate(3),rs.getString(4),rs.getString(5)));
             }
         }catch(SQLException ex){ System.out.println(ex);} catch (ClassNotFoundException ex) {
             Logger.getLogger(RegistroAdministradorController.class.getName()).log(Level.SEVERE, null, ex);
         }
         columId.setCellValueFactory(new PropertyValueFactory<>("Id_orden"));
-        columNombre.setCellValueFactory(new PropertyValueFactory<>("Id_Usuario"));
         columMonto.setCellValueFactory(new PropertyValueFactory<>("Monto"));
-        columEstado.setCellValueFactory(new PropertyValueFactory<>("Estado"));
         columFecha.setCellValueFactory(new PropertyValueFactory<>("Fecha"));
+        columNombre.setCellValueFactory(new PropertyValueFactory<>("Usuario"));
         columFuncion.setCellValueFactory(new PropertyValueFactory<>("Pelicula"));
-        columTipProy.setCellValueFactory(new PropertyValueFactory<>("TipoProyect"));
         tblOrdenes.setItems(listaOrdenes); 
     }
     

@@ -28,12 +28,10 @@
             <TableView fx:id="tblOrdenes" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
                <columns>
                   <TableColumn fx:id="columId" prefWidth="75.0" text="Id" />
-                  <TableColumn fx:id="columNombre" prefWidth="75.0" text="Nombre" />
-                  <TableColumn fx:id="columFecha" prefWidth="101.0" text="Fecha de orden" />
-                  <TableColumn fx:id="columMonto" prefWidth="75.0" text="Monto" />
-                  <TableColumn fx:id="columFuncion" prefWidth="110.0" text="Pelicula" />
-                  <TableColumn fx:id="columTipProy" prefWidth="117.0" text="Tipo de proyección" />
-                  <TableColumn fx:id="columEstado" prefWidth="73.0" text="Sala" />
+                  <TableColumn fx:id="columMonto" prefWidth="86.0" text="Monto" />
+                  <TableColumn fx:id="columFecha" prefWidth="158.0" text="Fecha de orden" />
+                  <TableColumn fx:id="columNombre" prefWidth="150.0" text="Nombre" />
+                  <TableColumn fx:id="columFuncion" prefWidth="202.0" text="Pelicula" />
                </columns>
                <HBox.margin>
                   <Insets bottom="30.0" left="40.0" right="40.0" top="20.0" />

@@ -145,7 +145,14 @@ public class ControlUsuarioController implements Initializable {
 
     @FXML
     void eliminarRegistro(ActionEvent event) throws ClassNotFoundException {
-        try{
+        if(tblUsuarios.getSelectionModel().getSelectedItem().getId() == SesionUsuario.getInstance().getId()){
+            Alert mensaje = new Alert(Alert.AlertType.INFORMATION);
+            mensaje.setTitle("ERROR");
+            mensaje.setContentText("No puedes eliminar tu cuenta.");
+            mensaje.setHeaderText("Resultado:");
+            mensaje.show();
+        }else{
+            try{
                     Class.forName("com.mysql.cj.jdbc.Driver");
                     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98");
                     //Objeto llamada procedimiento almacenado
@@ -162,8 +169,8 @@ public class ControlUsuarioController implements Initializable {
                     mensaje.show();
                     editar();
                     limpiar();
-            
-        }catch(SQLException ex){ System.out.println(ex);}
+            }catch(SQLException ex){ System.out.println(ex);}
+        }
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {

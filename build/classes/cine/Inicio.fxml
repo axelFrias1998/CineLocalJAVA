@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.*?>
 <?import com.jfoenix.controls.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,13 +9,20 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="551.0" prefWidth="843.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cine.InicioController">
+<AnchorPane id="AnchorPane" prefHeight="631.0" prefWidth="1033.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cine.InicioController">
    <children>
       <JFXDrawer fx:id="drawer" layoutY="57.0" prefHeight="76.0" prefWidth="88.0" style="visibility: false;" visible="false" />
       <Pane prefHeight="55.0" prefWidth="600.0" style="-fx-background-color: #7da8f8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <JFXHamburger fx:id="hamburger" layoutX="14.0" layoutY="18.0" />
+            <Label fx:id="lblBienvenido" layoutX="93.0" layoutY="13.0">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
+      <PieChart fx:id="piePeliculas" layoutX="154.0" layoutY="157.0" prefHeight="359.0" prefWidth="407.0" title="Usuarios registrados" AnchorPane.bottomAnchor="115.0" AnchorPane.topAnchor="157.0" />
+      <PieChart fx:id="piePeliculasDatos" layoutX="496.0" layoutY="157.0" prefHeight="359.0" prefWidth="447.0" title="Películas" AnchorPane.bottomAnchor="115.0" AnchorPane.topAnchor="157.0" />
    </children>
 </AnchorPane>
