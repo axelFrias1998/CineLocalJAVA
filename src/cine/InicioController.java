@@ -84,10 +84,10 @@ public class InicioController implements Initializable {
     public void datosChart(){
         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CineDB?useTimezone=true&serverTimezone=UTC","root","Suripanta.98")) {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select count(*) from usuario where Rol_Id != 1;");
+            ResultSet rs = stmt.executeQuery("select count(*) from usuario where Rol_Id = 2;");
             if(rs.next())
                 usuarios = rs.getInt(1);
-            ResultSet rsADMON = stmt.executeQuery("select count(*) from usuario where Rol_Id != 1");
+            ResultSet rsADMON = stmt.executeQuery("select count(*) from usuario where Rol_Id = 1");
             if(rsADMON.next())
                 administradores = rsADMON.getInt(1);
             ResultSet rsProyectando = stmt.executeQuery("select count(*) from pelicula where Estado_Id = 2");

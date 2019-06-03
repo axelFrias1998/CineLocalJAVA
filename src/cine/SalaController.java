@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -34,6 +35,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -41,6 +43,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.converter.LocalDateStringConverter;
 
 
@@ -60,6 +63,7 @@ public class SalaController implements Initializable {
     
     //Asignar funciones
     @FXML private DatePicker dtmFechaFuncion;
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("YYYY-mm-dd");
     @FXML private TableColumn<Proyectando, Integer> colIdFuncion;
     @FXML private TableColumn<Proyectando, String> colFin, colInicio, colSalaFuncion, colFechaFuncion;
     @FXML private Label lblDuracionAprox, lblProyectandose;
@@ -282,6 +286,24 @@ public class SalaController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Callback<DatePicker, DateCell> dayCellFactory = dp -> new DateCell()
+        {
+            @Override
+            public void updateItem(LocalDate item, boolean empty)
+            {
+                super.updateItem(item, empty);
+
+                if(item.isBefore(LocalDate.now()) || item.isAfter(LocalDate.now().plusYears(1)))
+                {
+                    setStyle("-fx-background-color: #ffc0cb; -fx-text-fill: darkgray;");
+                    setDisable(true);
+                }
+            }
+        };
+
+        dtmFechaFuncion.setDayCellFactory(dayCellFactory);
+        dtmFechaFuncion.setPromptText("YYYY-mm-dd");
+        dtmFechaFuncion.setValue(LocalDate.now());
         try {
             iniciaRequiredField();
             iniciaCMB();

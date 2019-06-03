@@ -16,24 +16,15 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="504.0" prefWidth="847.0">
                      <children>
-                        <TableView fx:id="tableSalas" layoutX="22.0" layoutY="49.0" prefHeight="267.0" prefWidth="318.0">
+                        <TableView fx:id="tableSalas" layoutX="221.0" layoutY="86.0" prefHeight="267.0" prefWidth="397.0" AnchorPane.bottomAnchor="154.0" AnchorPane.leftAnchor="221.0" AnchorPane.rightAnchor="281.0" AnchorPane.topAnchor="86.0">
                           <columns>
                             <TableColumn fx:id="colSala" prefWidth="94.0" text="Sala" />
-                            <TableColumn fx:id="colCapacidad" prefWidth="90.0" text="Capacidad" />
-                            <TableColumn fx:id="colDisponible" prefWidth="131.0" text="Disponible" />
+                            <TableColumn fx:id="colCapacidad" prefWidth="127.0" text="Capacidad" />
+                            <TableColumn fx:id="colDisponible" prefWidth="174.0" text="Disponible" />
                           </columns>
                         </TableView>
-                        <JFXButton fx:id="btnDisponible" buttonType="RAISED" layoutX="22.0" layoutY="320.0" onAction="#cambiarDisponibilidad" prefHeight="45.0" prefWidth="145.0" ripplerFill="#90c384" text="Cambiar disponibilidad" />
-                        <JFXButton fx:id="btnFormato" buttonType="RAISED" layoutX="181.0" layoutY="320.0" onAction="#mostrarFormato" prefHeight="45.0" prefWidth="145.0" ripplerFill="#90c384" text="Mostrar formato" />
-                        <Label layoutX="22.0" layoutY="22.0" text="Lista de salas registradas" />
-                        <TableView fx:id="tablaControl" layoutX="372.0" layoutY="49.0" prefHeight="266.0" prefWidth="446.0">
-                          <columns>
-                            <TableColumn fx:id="colInicioControl" prefWidth="144.0" text="Titulo" />
-                            <TableColumn fx:id="colHorarioControl" prefWidth="91.0" text="Horario" />
-                              <TableColumn fx:id="colFechaControl" prefWidth="101.0" text="Fecha" />
-                              <TableColumn fx:id="colTipoControl" prefWidth="109.0" text="Tipo proyeccion" />
-                          </columns>
-                        </TableView>
+                        <JFXButton fx:id="btnDisponible" buttonType="RAISED" layoutX="347.0" layoutY="376.0" onAction="#cambiarDisponibilidad" prefHeight="45.0" prefWidth="145.0" ripplerFill="#90c384" style="-fx-background-color: #a9eae7;" text="Cambiar disponibilidad" AnchorPane.bottomAnchor="86.0" AnchorPane.rightAnchor="407.0" />
+                        <Label layoutX="90.0" layoutY="40.0" text="Lista de salas registradas" />
                      </children>
                   </AnchorPane>
             </content>
@@ -48,7 +39,7 @@
                         <ComboBox fx:id="cmbHoraInicio" layoutX="227.0" layoutY="159.0" prefWidth="150.0" promptText="Hora inicio" />
                         <ComboBox fx:id="cmbTipoProyeccion" layoutX="501.0" layoutY="92.0" prefWidth="150.0" promptText="Tipo de proyección" />
                         <Label layoutX="36.0" layoutY="36.0" text="Asigna una función a alguna sala. Si el horario está ocupado, no podrás agregarla a tu itinerario" />
-                        <TableView fx:id="tablaFuncionesSala" layoutX="36.0" layoutY="254.0" prefHeight="235.0" prefWidth="579.0">
+                        <TableView fx:id="tablaFuncionesSala" layoutX="36.0" layoutY="254.0" prefHeight="235.0" prefWidth="579.0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="284.0" AnchorPane.topAnchor="254.0">
                           <columns>
                             <TableColumn fx:id="colIdFuncion" prefWidth="75.0" text="ID" />
                               <TableColumn fx:id="colFechaFuncion" prefWidth="145.0" text="Fecha" />
@@ -58,8 +49,7 @@
                           </columns>
                         </TableView>
                         <Label fx:id="lblProyectandose" layoutX="36.0" layoutY="221.0" text="Funciones proyectándose en la sala" visible="false" />
-                        <Label fx:id="lblDuracionAprox" layoutX="399.0" layoutY="163.0" />
-                        <JFXButton buttonType="RAISED" layoutX="700.0" layoutY="77.0" onAction="#agregarPelicula" prefHeight="55.0" prefWidth="131.0" ripplerFill="#489e9b" text="Agregar película" />
+                        <JFXButton buttonType="RAISED" layoutX="700.0" layoutY="77.0" onAction="#agregarPelicula" prefHeight="55.0" prefWidth="131.0" ripplerFill="#aaebe8" style="-fx-background-color: #a9eae7;" text="Agregar película" />
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -82,7 +72,7 @@
                               <Label fx:id="lblTotalAsientos" layoutX="14.0" layoutY="38.0" />
                            </children>
                         </Pane>
-                        <JFXButton buttonType="RAISED" layoutX="56.0" layoutY="239.0" onAction="#crearDisenio" prefHeight="45.0" prefWidth="156.0" style="-fx-background-color: #7da8f8;" text="Crear diseño de sala" />
+                        <JFXButton buttonType="RAISED" layoutX="56.0" layoutY="239.0" onAction="#crearDisenio" prefHeight="45.0" prefWidth="156.0" style="-fx-background-color: #a9eae7;" text="Crear diseño de sala" />
                      </children>
                   </AnchorPane>
                </content></Tab>
@@ -90,7 +80,6 @@
       </TabPane>
       <Pane prefHeight="55.0" prefWidth="600.0" style="-fx-background-color: #7da8f8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label layoutX="272.0" layoutY="19.0" text="Label" />
             <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="15.0" onAction="#regresar" ripplerFill="RED" text="Regresar" />
          </children>
       </Pane>

@@ -9,20 +9,6 @@
 
 <AnchorPane id="AnchorPane" prefHeight="404.0" prefWidth="752.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cine.OrdenesController">
    <children>
-      <HBox alignment="CENTER" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="360.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Pane prefHeight="50.0" prefWidth="902.0" style="-fx-background-color: #7da8f8;">
-               <children>
-                  <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="10.0" onAction="#regresar" ripplerFill="RED" text="Regresar" />
-                  <Label layoutX="331.0" layoutY="5.0" text="Ordenes">
-                     <font>
-                        <Font name="System Bold" size="23.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-         </children>
-      </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
          <children>
             <TableView fx:id="tblOrdenes" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
@@ -39,5 +25,15 @@
             </TableView>
          </children>
       </HBox>
+      <Pane prefHeight="50.0" prefWidth="905.0" style="-fx-background-color: #7da8f8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="10.0" onAction="#regresar" ripplerFill="RED" text="Regresar" />
+            <Label layoutX="331.0" layoutY="8.0" text="Ordenes">
+               <font>
+                  <Font name="System Bold" size="23.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
